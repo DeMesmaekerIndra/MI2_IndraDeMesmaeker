@@ -1,0 +1,47 @@
+#imgWrapper {
+    display: flex;
+    flex-wrap: wrap;
+    
+    justify-content: center;
+    align-content: space-between;
+}
+
+img{
+    max-width: 100%;
+}
+
+.Normal{
+    filter: none;
+}
+
+.Grayscale{
+    filter: grayscale(100%);
+}
+
+.Sepia{
+    filter: sepia(100%)
+}
+
+.Hue{
+    filter: hue-rotate(90deg);
+}
+
+.Blur{
+    filter: blur(10px);
+}
+
+#btnWrapper {
+    display: flex;
+    justify-content: center;
+    align-content: space-between;
+}
+
+button{
+    margin: 20px;
+}
+
+button:hover{
+    transition-delay: 300ms;
+
+    transform: scale(1.2);
+}
