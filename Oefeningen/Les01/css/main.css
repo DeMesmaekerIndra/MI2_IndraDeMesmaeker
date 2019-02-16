@@ -1,32 +1,29 @@
-#imgWrapper {
-    display: flex;
-    flex-wrap: wrap;
-    
-    justify-content: center;
-    align-content: space-between;
+#vanImg {
+    display: block;
+
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 70%;
+    min-width: 300px;
 }
 
-img{
-    max-width: 100%;
-}
-
-.Normal{
+.Normal {
     filter: none;
 }
 
-.Grayscale{
+.Grayscale {
     filter: grayscale(100%);
 }
 
-.Sepia{
+.Sepia {
     filter: sepia(100%)
 }
 
-.Hue{
+.Hue {
     filter: hue-rotate(90deg);
 }
 
-.Blur{
+.Blur {
     filter: blur(10px);
 }
 
@@ -36,12 +33,22 @@ img{
     align-content: space-between;
 }
 
-button{
+button {
     margin: 20px;
 }
 
-button:hover{
+button:hover {
     transition-delay: 300ms;
-
     transform: scale(1.2);
+}
+
+#sliderWrapper {
+    display: flex;
+    justify-content: center;
+}
+
+#opacity {
+    margin-left: 20px;
+    width: 50%;
+    max-width: 400px;
 }

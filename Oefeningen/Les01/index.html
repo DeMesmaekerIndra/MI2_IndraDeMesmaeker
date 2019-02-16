@@ -6,14 +6,13 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Oefening les 01 | Filters</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" media="screen" href="css/main.css">
-    <script src="js/main.js"></script>
+    <link rel="stylesheet" type="text/css" media="screen" href="css/main.css">    
 </head>
 
 <body>
-    <div id="imgWrapper">
-        <img class="Normal" src="img/van.jpg" alt="Afbeelding voertuig">
-    </div>
+    <figure id="imgWrapper">
+        <img id="vanImg" class="Normal" src="img/van.jpg" alt="Afbeelding voertuig">
+    </figure>
 
     <div id="btnWrapper">
         <button id="btnNormal">NORMAL</button>
@@ -22,6 +21,12 @@
         <button id="btnHue">HUE</button>
         <button id="btnBlur">BLUR</button>
     </div>
+
+    <div id="sliderWrapper">
+        <label id="lblOpacity" for="opactity">opacity</label>
+        <input type="range" min="0" max="100" id="opacity" name="opacity">
+    </div>
 </body>
 
+<script src="js/main.js"></script>
 </html>
