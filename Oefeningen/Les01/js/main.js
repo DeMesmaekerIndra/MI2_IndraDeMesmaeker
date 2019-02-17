@@ -2,6 +2,7 @@
     'use strict';
 
     let van = document.getElementById('vanImg');
+    let sldOpacity = document.getElementById('sldOpacity');
 
     window.addEventListener('load', function () {
 
@@ -19,6 +20,10 @@
         });
         document.getElementById('btnBlur').addEventListener('click', function () {
             van.className = 'Blur';
+        });
+        sldOpacity.addEventListener('input', function () {
+            van.style.opacity = sldOpacity.value;
+            document.getElementById('lblValue').textContent = sldOpacity.value * 100 + '%';
         });
     })
 })()
