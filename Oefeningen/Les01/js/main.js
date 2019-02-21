@@ -26,4 +26,4 @@
             document.getElementById('lblValue').textContent = sldOpacity.value * 100 + '%';
         });
     })
-})()
+})();
