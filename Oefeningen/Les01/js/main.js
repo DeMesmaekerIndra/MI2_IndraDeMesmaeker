@@ -4,7 +4,13 @@
     let van = document.getElementById('vanImg');
     let sldOpacity = document.getElementById('sldOpacity');
 
+    let setOpacity = function () {
+        van.style.opacity = sldOpacity.value;
+        document.getElementById('lblValue').textContent = sldOpacity.value * 100 + '%';
+    };
+
     window.addEventListener('load', function () {
+        setOpacity();
 
         document.getElementById('btnNormal').addEventListener('click', function () {
             van.className = 'Normal';
@@ -21,9 +27,6 @@
         document.getElementById('btnBlur').addEventListener('click', function () {
             van.className = 'Blur';
         });
-        sldOpacity.addEventListener('input', function () {
-            van.style.opacity = sldOpacity.value;
-            document.getElementById('lblValue').textContent = sldOpacity.value * 100 + '%';
-        });
+        sldOpacity.addEventListener('input', setOpacity);
     })
 })();
