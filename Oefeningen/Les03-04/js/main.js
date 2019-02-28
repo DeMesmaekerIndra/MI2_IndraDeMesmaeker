@@ -63,10 +63,27 @@
             if (isValid) {
                 loginmodal.classList.remove('loginmodal__shown');
                 loginmodal.classList.add('loginmodal__hidden');
-                //Do stuff with the login information
+                //Do stuff with the login informationg                
                 inpEmail.value = '';
                 inpPassword.value = '';
             }
         });
+
+        //IMAGES
+        let largeImg = document.querySelector('#large__figure>img');
+        let thumbs = document.querySelectorAll('.mainthumbs>figure');
+
+        for (let index = 0; index < thumbs.length; index++) {
+            let thumb = thumb[i];
+            let link = thumb.queryselector('a');
+            let img = thumb.queryselector('img');
+
+            link.addEventListener('click', function(e){
+                e.preventDefault();
+
+                largeImg.src = link.href;
+                largeImg.alt = img.alt;
+            });
+        }
     });
 })();
