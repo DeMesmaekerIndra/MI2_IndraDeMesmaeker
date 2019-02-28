@@ -27,8 +27,8 @@
             loginmodal.classList.add('loginmodal__hidden');
             errEmail.innerHTML = '';
             errPassword.innerHTML = '';
-            inpEmail.innerHTML = '';
-            inpPassword.innerHTML = '';
+            inpEmail.value = '';
+            inpPassword.value = '';
         });
 
         //login form input checking
@@ -63,6 +63,9 @@
             if (isValid) {
                 loginmodal.classList.remove('loginmodal__shown');
                 loginmodal.classList.add('loginmodal__hidden');
+                //Do stuff with the login information
+                inpEmail.value = '';
+                inpPassword.value = '';
             }
         });
     });
