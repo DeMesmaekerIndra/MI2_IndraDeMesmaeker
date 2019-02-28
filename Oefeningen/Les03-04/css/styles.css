@@ -79,22 +79,23 @@ body {
 /* login modal */
 
 #loginmodal {
-    background: rgba(255,255,255,0.9);
-    box-shadow: 0 0 0 0.3em rgba(0,0,0,0.03) inset, 0 0 0 0.1em rgba(0,0,0,0.15);
+    background: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 0 0 0.3em rgba(0, 0, 0, 0.03) inset, 0 0 0 0.1em rgba(0, 0, 0, 0.15);
     max-width: 100%;
     padding: 2rem 2rem;
     position: absolute;
     right: 10px;
     top: -5px;
-    width: 45rem;  
-    transition: 0.5s;  
+    width: 45rem;
+    transition: 0.5s;
 }
 
-.loginmodal__hidden{
+.loginmodal__hidden {
     transform: translateY(-100%);
 }
-.loginmodal__shown{
-    
+
+.loginmodal__shown {
+
     transform: translateY(0);
 }
 
@@ -131,7 +132,7 @@ body {
     flex-flow: row nowrap;
 }
 
-.filters__group:first-child p + p {
+.filters__group:first-child p+p {
     margin-left: 2rem;
 }
 
@@ -144,7 +145,7 @@ body {
     font-size: 1.4rem;
     height: 3rem;
     margin: 0.5rem 0;
-    padding: 0 0.5rem; 
+    padding: 0 0.5rem;
     text-transform: uppercase;
 }
 
@@ -175,13 +176,13 @@ main {
 
 .main__sheet {
     background: #fff;
-    box-shadow: 0 0 0 0.3em rgba(0,0,0,0.03) inset, 0 0 0 0.1em rgba(0,0,0,0.15);
+    box-shadow: 0 0 0 0.3em rgba(0, 0, 0, 0.03) inset, 0 0 0 0.1em rgba(0, 0, 0, 0.15);
     padding: 2rem;
 }
 
 /* large image */
 
-.main__large, 
+.main__large,
 .main__thumbs {
     margin: 0 auto;
     max-width: 80rem;
@@ -224,8 +225,9 @@ main {
     display: grid;
     grid-column-gap: 2.5%;
     grid-row-gap: 1rem;
-    grid-template-columns: 18% 18% 18% 18% 18%; /* four columns */
-    grid-template-rows: auto; 
+    grid-template-columns: 18% 18% 18% 18% 18%;
+    /* four columns */
+    grid-template-rows: auto;
 }
 
 /* ===========================================
@@ -266,14 +268,14 @@ label {
 .button--full {
     background-color: rgba(255, 64, 129, 1);
     border-radius: 2px;
-    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 
-        0 3px 1px -2px rgba(0, 0, 0, 0.12), 
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14),
+        0 3px 1px -2px rgba(0, 0, 0, 0.12),
         0 1px 5px 0 rgba(0, 0, 0, 0.2);
     color: #fff;
 }
 
-.button--full:hover, 
-.button--full:focus, 
+.button--full:hover,
+.button--full:focus,
 .button--full.active {
     background-color: rgba(255, 64, 129, 0.8);
 }
@@ -284,8 +286,8 @@ label {
     color: #0097A7;
 }
 
-.button--light:hover, 
-.button--light:focus, 
+.button--light:hover,
+.button--light:focus,
 .button--light.active {
     color: #FF4081;
 }
@@ -296,7 +298,7 @@ label {
     font-size: 1.4rem;
     height: 3rem;
     margin: 0.5rem 0;
-    padding: 0 0.5rem; 
+    padding: 0 0.5rem;
 }
 
 .forminput::placeholder {
@@ -306,8 +308,8 @@ label {
 /* form inputs, full */
 
 .forminput--full {
-    border: 2px solid #eee; 
-    border-radius: 2px;  
+    border: 2px solid #eee;
+    border-radius: 2px;
 }
 
 .forminput--light {
