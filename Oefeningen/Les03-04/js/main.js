@@ -4,7 +4,7 @@
     window.addEventListener('load', function () {
         //LOGIN FORM
 
-        //Variables for the form
+        //Form variables
         let loginfrm = document.getElementById('login__form');
         let loginmodal = document.getElementById('loginmodal');
         let inpEmail = document.getElementById('inpUname');               
@@ -21,7 +21,7 @@
             loginmodal.classList.add('loginmodal__shown');
         });
 
-        //Eventhandler for the cancel button on the form. Hides the loginmodal and clears all errors, and input field
+        //Eventhandler for the cancel button on the form. Hide the loginmodal, clear all errors and input field
         document.getElementById('btnCancel').addEventListener('click', function () {
             loginmodal.classList.remove('loginmodal__shown');
             loginmodal.classList.add('loginmodal__hidden');
@@ -70,18 +70,25 @@
         });
 
         //IMAGES
+
+        //Image variables
         let largeImg = document.querySelector('#large__figure>img');
-        let thumbs = document.querySelectorAll('.mainthumbs>figure');
+        let LargeImgDesc = document.querySelector('.large__title');
+        let thumbs = document.querySelectorAll('.main__thumbs>figure');
 
-        for (let index = 0; index < thumbs.length; index++) {
-            let thumb = thumb[i];
-            let link = thumb.queryselector('a');
-            let img = thumb.queryselector('img');
+        //Find every small thumbnail, split up the link & img
+        //Add an eventlistener to every link
+        for (let i = 0; i < thumbs.length; i++) {
+            let thumb = thumbs[i];
+            let link = thumb.querySelector('a');
+            let img = thumb.querySelector('img');
 
+            //The large image will be changed to the clicked small image, the alt & description will also be changed
             link.addEventListener('click', function(e){
                 e.preventDefault();
 
                 largeImg.src = link.href;
+                LargeImgDesc.innerHTML = img.alt;
                 largeImg.alt = img.alt;
             });
         }
