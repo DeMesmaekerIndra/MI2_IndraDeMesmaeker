@@ -78,8 +78,8 @@
         let activeThumb;
 
         //Find every small thumbnail, split up the link & img
-        //Add an eventlistener to every link        
-        thumbs.forEach(thumb => {
+        //Add an eventlistener to every link
+        for (let thumb of thumbs) {
             let link = thumb.querySelector('a');
             let img = thumb.querySelector('img');
 
@@ -97,27 +97,54 @@
                 LargeImgDesc.innerHTML = img.alt;
                 largeImg.alt = img.alt;
             });
-        });
+        }
 
         //FILTERS
 
         //Filter variables
         let dropDownFilter = document.getElementById('selAlbum');
+        let checkboxFilters = document.querySelectorAll('.filters__years>label>input');
 
+        //Filteren op basis van de drop down menu
         dropDownFilter.addEventListener('input', function () {
+
             if (dropDownFilter.value != -1) {
-                thumbs.forEach(thumb => {
+                for (let thumb of thumbs) {
+
                     if (thumb.getAttribute('data-albumId') != dropDownFilter.value) {
-                        thumb.classList.add('thumb__hidden');   //All of the thumbnails without a matching album-dataId will be hidden
+                        thumb.classList.add('thumb__hidden'); //All of the thumbnails without a matching album-dataId will be hidden
                     } else {
                         thumb.classList.remove('thumb__hidden'); //All matching thumbnails will be set as visible, could be hidden because of previous filter 
                     }
-                });    
+                }
             } else {
-                thumbs.forEach(thumb => {
-                    thumb.classList.remove('thumb__hidden');    //Show all of the thumbnails if no filter hs been chosen
-                });
-            }                
+                for (let thumb of thumbs) {
+                    thumb.classList.remove('thumb__hidden'); //Show all of the thumbnails if no filter hs been chosen
+                }
+            }
         });
+
+        //Geef eventlisteners aan iedere checkbox filter toe
+        for (let chkBox of checkboxFilters) {
+            chkBox.addEventListener('input', function () {
+                //Toon alle thumbnails wanneer de checkbox niet geselecteerd is                           
+                if (!chkBox.checked) {
+                    for (let thumb of thumbs) {
+                        thumb.classList.remove('thumb__hidden');
+                    }
+                    return; //Stoppen met het uitvoeren van de rest van de methode
+                }
+
+                dropDownFilter.value = -1; //Zet dropdown filter terug naar alle albums, we gaan niet per album per jaar filteren. De albums zijn al op jaar georderd.
+                for (let thumb of thumbs) {
+
+                    if (chkBox.value != thumb.getAttribute('data-year')) {
+                        thumb.classList.add('thumb__hidden');
+                    } else {
+                        thumb.classList.remove('thumb__hidden');
+                    }
+                }
+            });
+        }
     });
 })();
