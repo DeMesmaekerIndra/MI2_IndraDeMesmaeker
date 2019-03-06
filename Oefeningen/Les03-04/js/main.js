@@ -7,10 +7,10 @@
         //Form variables
         let loginfrm = document.getElementById('login__form');
         let loginmodal = document.getElementById('loginmodal');
-        let inpEmail = document.getElementById('inpUname');               
+        let inpEmail = document.getElementById('inpUname');
         let inpPassword = document.getElementById('inpPass');
-        let errEmail = document.getElementById('errUname');        
-        let errPassword = document.getElementById('errPass'); 
+        let errEmail = document.getElementById('errUname');
+        let errPassword = document.getElementById('errPass');
 
         //Disable standard html form checking
         loginfrm.setAttribute('novalidate', 'novalidate');
@@ -58,7 +58,7 @@
                 errPassword.innerHTML = '';
                 isValid = isValid && true;
             }
-            
+
             //Final decision
             if (isValid) {
                 loginmodal.classList.remove('loginmodal__shown');
@@ -75,22 +75,49 @@
         let largeImg = document.querySelector('#large__figure>img');
         let LargeImgDesc = document.querySelector('.large__title');
         let thumbs = document.querySelectorAll('.main__thumbs>figure');
+        let activeThumb;
 
         //Find every small thumbnail, split up the link & img
-        //Add an eventlistener to every link
-        for (let i = 0; i < thumbs.length; i++) {
-            let thumb = thumbs[i];
+        //Add an eventlistener to every link        
+        thumbs.forEach(thumb => {
             let link = thumb.querySelector('a');
             let img = thumb.querySelector('img');
 
             //The large image will be changed to the clicked small image, the alt & description will also be changed
-            link.addEventListener('click', function(e){
+            link.addEventListener('click', function (e) {
                 e.preventDefault();
+
+                if (activeThumb != null) {
+                    activeThumb.classList.remove('active');
+                }
+                img.classList.add('active');
+                activeThumb = img;
 
                 largeImg.src = link.href;
                 LargeImgDesc.innerHTML = img.alt;
                 largeImg.alt = img.alt;
             });
-        }
+        });
+
+        //FILTERS
+
+        //Filter variables
+        let dropDownFilter = document.getElementById('selAlbum');
+
+        dropDownFilter.addEventListener('input', function () {
+            if (dropDownFilter.value != -1) {
+                thumbs.forEach(thumb => {
+                    if (thumb.getAttribute('data-albumId') != dropDownFilter.value) {
+                        thumb.classList.add('thumb__hidden');   //All of the thumbnails without a matching album-dataId will be hidden
+                    } else {
+                        thumb.classList.remove('thumb__hidden'); //All matching thumbnails will be set as visible, could be hidden because of previous filter 
+                    }
+                });    
+            } else {
+                thumbs.forEach(thumb => {
+                    thumb.classList.remove('thumb__hidden');    //Show all of the thumbnails if no filter hs been chosen
+                });
+            }                
+        });
     });
 })();

@@ -230,6 +230,15 @@ main {
     grid-template-rows: auto;
 }
 
+figure>a>img:hover,
+.active {
+    opacity: 0.75;
+}
+
+.thumb__hidden {
+    display: none;
+}
+
 /* ===========================================
     Form styles
     =========================================== */
