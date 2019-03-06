@@ -7,17 +7,17 @@
      * Thumbnails that did pass will have have the CSS class 'thumb__hidden' removed, and be shown.
      * @param {*} conditionalValue Value you want to check against
      * @param {string} attribute  The attribute name you want to get checked
-     * @param {string} selectors A string that defines the selectors of the items you want in collection that has to be checked
+     * @param {string} selectors A string that defines the selectors of the element you want to be checked
      */
     let applyFilters = function (conditionalValue, attribute, selectors) {
         let thumbs = document.querySelectorAll('.main__thumbs>figure'); //Collection of thumbnails. This is needed to hide the entire thumbnail     
         let wantedElements = document.querySelectorAll(selectors); //Collection where the lowest child element has to be checked for a certain condition
-
-        for (let i=0; i< wantedElements.length; i++) {
+        
+        for (let i = 0; i < wantedElements.length; i++) {
             if (!wantedElements[i].getAttribute(attribute).toLowerCase().includes(conditionalValue.toLowerCase())) {
-                thumbs[i].classList.add('thumb__hidden'); //All of the thumbnails without a matching album-dataId will be hidden
+                thumbs[i].classList.add('thumb__hidden');
             } else {
-                thumbs[i].classList.remove('thumb__hidden'); //All matching thumbnails will be set as visible, could be hidden because of previous filter 
+                thumbs[i].classList.remove('thumb__hidden'); 
             }
         }
     }
@@ -29,6 +29,16 @@
         let thumbs = document.querySelectorAll('.main__thumbs>figure');
         for (const thumb of thumbs) {
             thumb.classList.remove('thumb__hidden');
+        }
+    }
+
+    /**
+     * A simple method that unselects all of the checkboxes 
+     */
+    let resetChk = function () {
+        checkboxFilters = document.querySelectorAll('.filters__years>label>input');
+        for (const chk of checkboxFilters) {
+            chk.checked = false;
         }
     }
 
@@ -94,7 +104,7 @@
             if (isValid) {
                 loginmodal.classList.remove('loginmodal__shown');
                 loginmodal.classList.add('loginmodal__hidden');
-                //Do stuff with the login informationg                
+                //Do stuff with the login information                
                 inpEmail.value = '';
                 inpPassword.value = '';
             }
@@ -114,7 +124,7 @@
             let link = thumb.querySelector('a');
             let img = thumb.querySelector('img');
 
-            //The large image will be changed to the clicked small image, the alt & description will also be changed
+            //change large image to selected small image, change alt & description
             link.addEventListener('click', function (e) {
                 e.preventDefault();
 
@@ -136,44 +146,61 @@
         let dropDownFilter = document.getElementById('selAlbum');
         let checkboxFilters = document.querySelectorAll('.filters__years>label>input');
         let btnFilter = document.getElementById('btnSearch');
+        let btnReset = document.getElementById('btnReset');
         let inpSearch = document.getElementById('inpSearch');
 
-        //Filteren op basis van de drop down menu
+        //Filter based on dropdown menu
         dropDownFilter.addEventListener('input', function () {
 
-            if (dropDownFilter.value != -1) {
-                applyFilters(dropDownFilter.value, 'data-albumId', '.main__thumbs>figure');
-
-            } else {
-                resetFilters(); //Show all of the thumbnails if no filter hs been chosen        
+            if (dropDonFilter.value == -1) {
+                resetFilters();
+                return;
             }
+
+            //Reset all other filters
+            resetChk();
+            inpSearch.value = '';
+
+            applyFilters(dropDownFilter.value, 'data-albumId', '.main__thumbs>figure');
         });
 
-        //Filtereren op basis van checkboxen
+        //Filter based on checkboxes
         for (let chkBox of checkboxFilters) {
             chkBox.addEventListener('input', function () {
-                //Toon alle thumbnails wanneer de checkbox niet geselecteerd is                           
+                //Show all thumbnails if no checkbox is selected                           
                 if (!chkBox.checked) {
                     resetFilters();
-                    return; //Stoppen met het uitvoeren van de rest van de methode
+                    return; //Stop executing the method
                 }
+                //Reset of all other filters
+                dropDownFilter.value = -1; 
+                inpSearch.value = '';
 
-                dropDownFilter.value = -1; //Zet dropdown filter terug naar alle albums, we gaan niet per album per jaar filteren. De albums zijn al op jaar georderd.
                 applyFilters(chkBox.value, 'data-year', '.main__thumbs>figure');
             });
         }
 
+        //Filter based on search field
         btnFilter.addEventListener('click', function () {
+            //Show all thumbnails if the searchfield is empty
             if (inpSearch.value == '') {
                 resetFilters();
-                return;
+                return; //Stop executing the method
             }
-            for (const chk of checkboxFilters) {
-                chk.checked = false;
-            }
+
+            //Reset of all other filters
             dropDownFilter.value = -1;
+            resetChk();          
 
             applyFilters(inpSearch.value, 'alt', '.main__thumbs>figure img');
+        });
+
+        //Reset all filters, show thumbnails
+        btnReset.addEventListener('click', function () {
+            dropDownFilter.value = -1;
+            inpSearch.value = '';
+            resetChk();
+            resetFilters();
         });
     });
 })();
