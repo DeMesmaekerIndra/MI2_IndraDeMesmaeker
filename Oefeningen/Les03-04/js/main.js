@@ -36,7 +36,7 @@
      * A simple method that unselects all of the checkboxes 
      */
     let resetChk = function () {
-        checkboxFilters = document.querySelectorAll('.filters__years>label>input');
+       let checkboxFilters = document.querySelectorAll('.filters__years>label>input');
         for (const chk of checkboxFilters) {
             chk.checked = false;
         }
@@ -152,7 +152,7 @@
         //Filter based on dropdown menu
         dropDownFilter.addEventListener('input', function () {
 
-            if (dropDonFilter.value == -1) {
+            if (dropDownFilter.value == -1) {
                 resetFilters();
                 return;
             }
