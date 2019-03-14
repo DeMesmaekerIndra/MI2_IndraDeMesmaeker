@@ -97,7 +97,7 @@
      * Function that finds the first next thumbnails that has not been hidden
      */
     let nextThumb = function () {
-        const currentImg = document.getElementsByClassName('active')[0];
+        let currentImg = document.getElementsByClassName('active')[0];
 
         do {
             currentImg = currentImg.nextElementSibling;
@@ -117,12 +117,12 @@
         //////////////
 
         //Form variables
-        let loginfrm = document.getElementById('login__form');
-        let loginmodal = document.getElementById('loginmodal');
-        let inpEmail = document.getElementById('inpUname');
-        let inpPassword = document.getElementById('inpPass');
-        let errEmail = document.getElementById('errUname');
-        let errPassword = document.getElementById('errPass');
+        const loginfrm = document.getElementById('login__form');
+        const loginmodal = document.getElementById('loginmodal');
+        const inpEmail = document.getElementById('inpUname');
+        const inpPassword = document.getElementById('inpPass');
+        const errEmail = document.getElementById('errUname');
+        const errPassword = document.getElementById('errPass');
 
         //Disable standard html form checking
         loginfrm.setAttribute('novalidate', 'novalidate');
@@ -151,24 +151,24 @@
             let isValid = true;
 
             //Check username field
-            if (inpEmail.value == '') {
+            if (inpEmail.value === '') {
                 errEmail.innerHTML = 'login kan niet leeg zijn';
-                isValid = isValid && false;
+                isValid &= false;
             } else if (!validateEmail(inpEmail.value)) {
                 errEmail.innerHTML = 'ongeldige login';
-                isValid = isValid && false;
+                isValid &= false;
             } else {
                 errEmail.innerHTML = '';
-                isValid = isValid && true;
+                isValid &= true;
             }
 
             //Check password field
-            if (inpPassword.value == '') {
+            if (inpPassword.value === '') {
                 errPassword.innerHTML = 'paswoord kan niet leeg zijn';
-                isValid = isValid && false;
+                isValid &= false;
             } else {
                 errPassword.innerHTML = '';
-                isValid = isValid && true;
+                isValid &= true;
             }
 
             //Final decision
@@ -186,10 +186,10 @@
         //////////
 
         //Image variables       
-        let thumbs = document.querySelectorAll('.main__thumbs>figure'); //A collection of all the thumbnails
+        const thumbs = document.querySelectorAll('.main__thumbs>figure'); //A collection of all the thumbnails
 
         //Add eventlistener to every link from a thumbnail
-        for (let thumb of thumbs) {
+        for (const thumb of thumbs) {
             thumb.querySelector('a').addEventListener('click', function (e) {
                 e.preventDefault();
                 clearInterval(interval);
@@ -204,14 +204,14 @@
         ///////////
 
         //Filter variables
-        let dropDownFilter = document.getElementById('selAlbum');
-        let checkboxFilters = document.querySelectorAll('.filters__years>label>input');
-        let inpSearch = document.getElementById('inpSearch');
+        const dropDownFilter = document.getElementById('selAlbum');
+        const checkboxFilters = document.querySelectorAll('.filters__years>label>input');
+        const inpSearch = document.getElementById('inpSearch');
 
         //Filter based on dropdown menu
         dropDownFilter.addEventListener('input', function () {
 
-            if (dropDownFilter.value == -1) {
+            if (dropDownFilter.value === '-1') {
                 resetFilters();
                 return;
             }
@@ -224,7 +224,7 @@
         });
 
         //Filter based on checkboxes
-        for (let chkBox of checkboxFilters) {
+        for (const chkBox of checkboxFilters) {
             chkBox.addEventListener('input', function () {
                 //Show all thumbnails if no checkbox is selected                           
                 if (!chkBox.checked) {
@@ -234,7 +234,9 @@
                 //Reset of all other filters
                 dropDownFilter.value = -1;
                 inpSearch.value = '';
+                resetChk();
 
+                this.checked = true;
                 applyFilters(chkBox.value, 'data-year', '.main__thumbs>figure');
             });
         }
@@ -242,7 +244,7 @@
         //Filter based on search field
         document.getElementById('btnSearch').addEventListener('click', function () {
             //Show all thumbnails if the searchfield is empty
-            if (inpSearch.value == '') {
+            if (inpSearch.value === '') {
                 resetFilters();
                 return; //Stop executing the method
             }
@@ -277,7 +279,7 @@
         document.getElementById('lnkLast').addEventListener('click', function (e) {
             e.preventDefault();
 
-            let shownThumbs = document.querySelectorAll('.main__thumbs>figure:not(.thumb__hidden)');
+            const shownThumbs = document.querySelectorAll('.main__thumbs>figure:not(.thumb__hidden)');
             changeLargeImage(shownThumbs[shownThumbs.length - 1]);
         });
 
@@ -295,34 +297,34 @@
 
         //Show the first, previous, next, last thumbnails when an arrowkey (with/without shift) has been pressed
         document.onkeydown = function (e) {
-            let keyCode = e.keyCode;
-            let shiftPressed = e.shiftKey;
+            const keyCode = e.keyCode;
+            const shiftPressed = e.shiftKey;
 
-            if (keyCode == 37 && !shiftPressed) {
+            if (keyCode === 37 && !shiftPressed) {
                 clearInterval(interval);
                 interval = null;
-                previousThumb();                
-            } else if (keyCode == 37 && shiftPressed) {
+                previousThumb();
+            } else if (keyCode === 37 && shiftPressed) {
                 clearInterval(interval);
                 interval = null;
-                changeLargeImage(document.querySelectorAll('.main__thumbs>figure:not(.thumb__hidden)')[0]);                
+                changeLargeImage(document.querySelectorAll('.main__thumbs>figure:not(.thumb__hidden)')[0]);
             }
 
-            if (keyCode == 39 && !shiftPressed) {
+            if (keyCode === 39 && !shiftPressed) {
                 clearInterval(interval);
                 interval = null;
-                nextThumb();                
-            } else if (keyCode == 39 && shiftPressed) {
+                nextThumb();
+            } else if (keyCode === 39 && shiftPressed) {
                 clearInterval(interval);
                 interval = null;
-                let shownThumbs = document.querySelectorAll('.main__thumbs>figure:not(.thumb__hidden)');
-                changeLargeImage(shownThumbs[shownThumbs.length - 1]);                  
+                const shownThumbs = document.querySelectorAll('.main__thumbs>figure:not(.thumb__hidden)');
+                changeLargeImage(shownThumbs[shownThumbs.length - 1]);
             }
         }
 
         document.getElementById('lnkPlay').addEventListener('click', function (e) {
             e.preventDefault();
-            if (interval == null) {
+            if (interval === null) {
                 interval = setInterval(nextThumb, 1000);
             } else {
                 clearInterval(interval);
