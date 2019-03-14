@@ -5,7 +5,7 @@
      * A function that allows us to check an attribute of an element.
      * Thumbnails that didn't pass the condition will be hidden by adding a CSS class 'thumb__hidden'
      * Thumbnails that did pass will have have the CSS class 'thumb__hidden' removed, and be shown.
-     * @param {*} conditionalValue Value you want to check against
+     * @param {string} conditionalValue Value you want to check against
      * @param {string} attribute  The attribute name you want to get checked
      * @param {string} selectors A string that defines the selectors of the element you want to be checked
      */
@@ -30,6 +30,16 @@
         for (const thumb of thumbs) {
             thumb.classList.remove('thumb__hidden');
         }
+    }
+
+    /**
+     * Function that checks the validity of an email address
+     * @param {string} email 
+     * @returns {boolean} Returns true or false based pn
+     */
+    function validateEmail(email) {
+        var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        return re.test(String(email).toLowerCase());
     }
 
     /**
@@ -79,15 +89,15 @@
         changeLargeImage(currentImg);
     }
 
-     /*intervalis where setInterval is stored for the slideshow, It's not defined in the window load event function
+    /*interval is where setInterval is stored for the slideshow, It's not defined in the window load event function
     Because the function nextThumb() needs to acces it as well.*/
-    let interval = null;   
+    let interval = null;
 
     /**
      * Function that finds the first next thumbnails that has not been hidden
      */
     let nextThumb = function () {
-        let currentImg = document.getElementsByClassName('active')[0];
+        const currentImg = document.getElementsByClassName('active')[0];
 
         do {
             currentImg = currentImg.nextElementSibling;
@@ -99,7 +109,7 @@
             }
         } while (currentImg.classList.contains('thumb__hidden'));
         changeLargeImage(currentImg);
-    }    
+    }
 
     window.addEventListener('load', function () {
         ///////////////
@@ -144,7 +154,7 @@
             if (inpEmail.value == '') {
                 errEmail.innerHTML = 'login kan niet leeg zijn';
                 isValid = isValid && false;
-            } else if (!inpEmail.value.includes('@')) {
+            } else if (!validateEmail(inpEmail.value)) {
                 errEmail.innerHTML = 'ongeldige login';
                 isValid = isValid && false;
             } else {
@@ -182,6 +192,8 @@
         for (let thumb of thumbs) {
             thumb.querySelector('a').addEventListener('click', function (e) {
                 e.preventDefault();
+                clearInterval(interval);
+                interval = null;
 
                 changeLargeImage(thumb);
             });
@@ -282,32 +294,40 @@
         });
 
         //Show the first, previous, next, last thumbnails when an arrowkey (with/without shift) has been pressed
-        document.onkeydown = function (ev) {
-            let keyCode = ev.keyCode;
-            let shiftPressed = ev.shiftKey;
+        document.onkeydown = function (e) {
+            let keyCode = e.keyCode;
+            let shiftPressed = e.shiftKey;
 
             if (keyCode == 37 && !shiftPressed) {
-                previousThumb();
+                clearInterval(interval);
+                interval = null;
+                previousThumb();                
             } else if (keyCode == 37 && shiftPressed) {
-                changeLargeImage(document.querySelectorAll('.main__thumbs>figure:not(.thumb__hidden)')[0])
+                clearInterval(interval);
+                interval = null;
+                changeLargeImage(document.querySelectorAll('.main__thumbs>figure:not(.thumb__hidden)')[0]);                
             }
 
             if (keyCode == 39 && !shiftPressed) {
-                nextThumb();
+                clearInterval(interval);
+                interval = null;
+                nextThumb();                
             } else if (keyCode == 39 && shiftPressed) {
+                clearInterval(interval);
+                interval = null;
                 let shownThumbs = document.querySelectorAll('.main__thumbs>figure:not(.thumb__hidden)');
-                changeLargeImage(shownThumbs[shownThumbs.length - 1]);
+                changeLargeImage(shownThumbs[shownThumbs.length - 1]);                  
             }
         }
-        
+
         document.getElementById('lnkPlay').addEventListener('click', function (e) {
             e.preventDefault();
             if (interval == null) {
-                interval = setInterval(nextThumb, 800);
+                interval = setInterval(nextThumb, 1000);
             } else {
                 clearInterval(interval);
                 interval = null;
-            }            
+            }
         });
     });
 })();
