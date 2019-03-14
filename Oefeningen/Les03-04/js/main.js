@@ -19,8 +19,12 @@
                 thumbs[i].classList.add('thumb__hidden');
             } else {
                 thumbs[i].classList.remove('thumb__hidden');
-            }
+            }           
         }
+        const firsThumb = document.querySelector('.main__thumbs>figure:not(.thumb__hidden)');
+        
+        firsThumb.classList.add('active');
+        changeLargeImage(firsThumb);
     }
 
     /**
@@ -30,6 +34,9 @@
         for (const thumb of thumbs) {
             thumb.classList.remove('thumb__hidden');
         }
+
+        thumbs[0].classList.add('active');
+        changeLargeImage(thumbs[0]);
     }
 
     /*interval is where setInterval is stored for the slideshow, It's not defined in the window load event function
