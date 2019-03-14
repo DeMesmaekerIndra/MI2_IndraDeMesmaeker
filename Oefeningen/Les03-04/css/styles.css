@@ -233,6 +233,7 @@ main {
 figure>a>img:hover,
 .active {
     opacity: 0.75;
+    box-shadow: 4px 4px gray;
 }
 
 .thumb__hidden {
