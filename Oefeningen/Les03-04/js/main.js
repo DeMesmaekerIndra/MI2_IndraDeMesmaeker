@@ -11,9 +11,8 @@
      * @param {string} attribute  The attribute name you want to get checked
      * @param {string} selectors A string that defines the selectors of the element you want to be checked
      */
-    let applyFilters = function (conditionalValue, attribute, selectors) {
-
-        let wantedElements = document.querySelectorAll(selectors); //Collection where the lowest child element has to be checked for a certain condition
+    let applyFilters = function (conditionalValue, attribute, selectors) {        
+        const wantedElements = document.querySelectorAll(selectors); //Collection where the lowest child element has to be checked for a certain condition
 
         for (let i = 0; i < wantedElements.length; i++) {
             if (!wantedElements[i].getAttribute(attribute).toLowerCase().includes(conditionalValue.toLowerCase())) {
@@ -27,7 +26,7 @@
     /**
      * A function that removes the CSS class 'thumb__hidden' from all thumbnails, basicaly resetting every filter
      */
-    let resetFilters = function () {
+    let resetFilters = function () {      
         for (const thumb of thumbs) {
             thumb.classList.remove('thumb__hidden');
         }
@@ -66,7 +65,7 @@
      * Function that unselects all of the checkboxes 
      */
     let resetChk = function () {
-        let checkboxFilters = document.querySelectorAll('.filters__years>label>input');
+        const checkboxFilters = document.querySelectorAll('.filters__years>label>input');
         for (const chk of checkboxFilters) {
             chk.checked = false;
         }
