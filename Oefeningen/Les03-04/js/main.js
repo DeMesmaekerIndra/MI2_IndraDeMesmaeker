@@ -1,6 +1,8 @@
 (function () {
     'use strict';
 
+    const thumbs = document.querySelectorAll('.main__thumbs>figure'); //Collection of all the thumbnails
+
     /**
      * A function that allows us to check an attribute of an element.
      * Thumbnails that didn't pass the condition will be hidden by adding a CSS class 'thumb__hidden'
@@ -10,7 +12,7 @@
      * @param {string} selectors A string that defines the selectors of the element you want to be checked
      */
     let applyFilters = function (conditionalValue, attribute, selectors) {
-        let thumbs = document.querySelectorAll('.main__thumbs>figure'); //Collection of thumbnails. This is needed to hide the entire thumbnail     
+
         let wantedElements = document.querySelectorAll(selectors); //Collection where the lowest child element has to be checked for a certain condition
 
         for (let i = 0; i < wantedElements.length; i++) {
@@ -26,7 +28,6 @@
      * A function that removes the CSS class 'thumb__hidden' from all thumbnails, basicaly resetting every filter
      */
     let resetFilters = function () {
-        let thumbs = document.querySelectorAll('.main__thumbs>figure');
         for (const thumb of thumbs) {
             thumb.classList.remove('thumb__hidden');
         }
@@ -35,7 +36,7 @@
     /**
      * Function that checks the validity of an email address
      * @param {string} email 
-     * @returns {boolean} Returns true or false based pn
+     * @returns {boolean} Returns true or false wether or not the given mail has passed the test
      */
     function validateEmail(email) {
         var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -47,11 +48,11 @@
      * @param {Element} thumb The thumbnail (figure) that has to replace the large image
      */
     let changeLargeImage = function (thumb) {
-        let largeImg = document.querySelector('#large__figure>img')
-        let LargeImgDesc = document.getElementsByClassName('large__title')[0];
-        let activeThumb = document.getElementsByClassName('active')[0];
-        let img = thumb.querySelector('img');
-        let link = thumb.querySelector('a');
+        const largeImg = document.querySelector('#large__figure>img')
+        const LargeImgDesc = document.getElementsByClassName('large__title')[0];
+        const activeThumb = document.getElementsByClassName('active')[0];
+        const img = thumb.querySelector('img');
+        const link = thumb.querySelector('a');
 
         activeThumb.classList.remove('active');
         thumb.classList.add('active');
@@ -184,9 +185,6 @@
         //////////
         //IMAGES//
         //////////
-
-        //Image variables       
-        const thumbs = document.querySelectorAll('.main__thumbs>figure'); //A collection of all the thumbnails
 
         //Add eventlistener to every link from a thumbnail
         for (const thumb of thumbs) {
