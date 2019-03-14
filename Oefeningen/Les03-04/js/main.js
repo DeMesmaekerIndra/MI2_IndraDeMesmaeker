@@ -32,6 +32,15 @@
         }
     }
 
+    /*interval is where setInterval is stored for the slideshow, It's not defined in the window load event function
+    Because the function nextThumb() needs to acces it as well.*/
+    let interval = null;
+    
+    let resetInterval = function () {
+        clearInterval(interval);
+        interval = null;
+    }
+
     /**
      * Function that checks the validity of an email address
      * @param {string} email 
@@ -87,11 +96,7 @@
         } while (currentImg.classList.contains('thumb__hidden'));
 
         changeLargeImage(currentImg);
-    }
-
-    /*interval is where setInterval is stored for the slideshow, It's not defined in the window load event function
-    Because the function nextThumb() needs to acces it as well.*/
-    let interval = null;
+    }    
 
     /**
      * Function that finds the first next thumbnails that has not been hidden
@@ -103,8 +108,7 @@
             currentImg = currentImg.nextElementSibling;
             //If currentImg doesn't contain an element, stop executing the function. There are no next element siblings left.
             if (currentImg == null) {
-                clearInterval(interval);
-                interval = null;
+                resetInterval();
                 return;
             }
         } while (currentImg.classList.contains('thumb__hidden'));
@@ -189,8 +193,7 @@
         for (const thumb of thumbs) {
             thumb.querySelector('a').addEventListener('click', function (e) {
                 e.preventDefault();
-                clearInterval(interval);
-                interval = null;
+                resetInterval();
 
                 changeLargeImage(thumb);
             });
@@ -239,7 +242,8 @@
         }
 
         //Filter based on search field
-        document.getElementById('btnSearch').addEventListener('click', function () {
+        document.getElementById('btnSearch').addEventListener('click', function (e) {
+            e.preventDefault();
             //Show all thumbnails if the searchfield is empty
             if (inpSearch.value === '') {
                 resetFilters();
@@ -298,22 +302,18 @@
             const shiftPressed = e.shiftKey;
 
             if (keyCode === 37 && !shiftPressed) {
-                clearInterval(interval);
-                interval = null;
+                resetInterval();
                 previousThumb();
             } else if (keyCode === 37 && shiftPressed) {
-                clearInterval(interval);
-                interval = null;
+                resetInterval();
                 changeLargeImage(document.querySelectorAll('.main__thumbs>figure:not(.thumb__hidden)')[0]);
             }
 
             if (keyCode === 39 && !shiftPressed) {
-                clearInterval(interval);
-                interval = null;
+                resetInterval();
                 nextThumb();
             } else if (keyCode === 39 && shiftPressed) {
-                clearInterval(interval);
-                interval = null;
+                resetInterval();
                 const shownThumbs = document.querySelectorAll('.main__thumbs>figure:not(.thumb__hidden)');
                 changeLargeImage(shownThumbs[shownThumbs.length - 1]);
             }
@@ -324,8 +324,7 @@
             if (interval === null) {
                 interval = setInterval(nextThumb, 1000);
             } else {
-                clearInterval(interval);
-                interval = null;
+                resetInterval();
             }
         });
     });
