@@ -19,6 +19,7 @@
                 thumbs[i].classList.add('thumb__hidden');
             } else {
                 thumbs[i].classList.remove('thumb__hidden');
+                thumbs[i].classList.remove('active');
             }           
         }
         const firsThumb = document.querySelector('.main__thumbs>figure:not(.thumb__hidden)');
@@ -33,6 +34,7 @@
     let resetFilters = function () {      
         for (const thumb of thumbs) {
             thumb.classList.remove('thumb__hidden');
+            thumb.classList.remove('active');
         }
 
         thumbs[0].classList.add('active');
