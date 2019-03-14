@@ -5,8 +5,8 @@
 
     /**
      * A function that allows us to check an attribute of an element.
-     * Thumbnails that didn't pass the condition will be hidden by adding a CSS class 'thumb__hidden'
-     * Thumbnails that did pass will have have the CSS class 'thumb__hidden' removed, and be shown.
+     * Thumbnails that didn't pass the condition will be hidden by adding the class 'thumb__hidden', and be hidden
+     * Thumbnails that did pass will have have the class 'thumb__hidden' removed, and be shown.
      * @param {string} conditionalValue Value you want to check against
      * @param {string} attribute  The attribute name you want to get checked
      * @param {string} selectors A string that defines the selectors of the element you want to be checked
@@ -24,7 +24,7 @@
     }
 
     /**
-     * A function that removes the CSS class 'thumb__hidden' from all thumbnails, basicaly resetting every filter
+     * A function that removes the class 'thumb__hidden' from all thumbnails, basicaly resetting every filter
      */
     let resetFilters = function () {      
         for (const thumb of thumbs) {
