@@ -1,18 +1,38 @@
 <!DOCTYPE html>
 <html>
+
 <head>
 	<title>Reeks 2 oef3</title>
 	<meta charset="utf-8" />
 	<style>
 		/* general styles */
-		body { font-family: Arial; font-size: 14px; max-width: 600px; }
-		* { box-sizing: border-box; }
-		.assignment { margin-bottom: 20px; color: #4F81BD; }
-		.assignment ul, .assignment ol { padding-left: 15px; }
+		body {
+			font-family: Arial;
+			font-size: 14px;
+			max-width: 600px;
+		}
+
+		* {
+			box-sizing: border-box;
+		}
+
+		.assignment {
+			margin-bottom: 20px;
+			color: #4F81BD;
+		}
+
+		.assignment ul,
+		.assignment ol {
+			padding-left: 15px;
+		}
+
 		/* specific styles */
-		img { max-width: 100%; }
+		img {
+			max-width: 100%;
+		}
 	</style>
 </head>
+
 <body>
 	<div class="assignment">
 		<p>Opdracht</p>
@@ -21,17 +41,49 @@
 		</ol>
 	</div>
 	<img src="//bitmatters.be/o/img/photo6-m.jpg" alt="" id="imgBig">
-			
+
 	<script>
-		let photos = [
-			'//bitmatters.be/o/img/photo1-m.jpg',
-			'//bitmatters.be/o/img/photo17-m.jpg',
-			'//bitmatters.be/o/img/photo6-m.jpg',
-			'//bitmatters.be/o/img/photo12-m.jpg',
-			'//bitmatters.be/o/img/photo3-m.jpg',
-			'//bitmatters.be/o/img/photo20-m.jpg'
-		];
-		// your code here...
+		(function () {
+			let photos = [
+				'//bitmatters.be/o/img/photo1-m.jpg',
+				'//bitmatters.be/o/img/photo17-m.jpg',
+				'//bitmatters.be/o/img/photo6-m.jpg',
+				'//bitmatters.be/o/img/photo12-m.jpg',
+				'//bitmatters.be/o/img/photo3-m.jpg',
+				'//bitmatters.be/o/img/photo20-m.jpg'
+			];
+			let index = 2; //Startindex
+			const MAX_INDEX = photos.length - 1;
+
+			let changeImage = function () {
+				let currentImage = document.getElementById('imgBig');
+				currentImage.src = photos[index];
+			}
+
+			window.addEventListener('load', function () {
+				document.addEventListener('keydown', function (e) {
+					switch (e.keyCode) {
+						//left key
+						case 37:
+							if (index > 0) {
+								index--;
+								changeImage();
+							}
+							break;
+							//rightkey
+						case 39:
+							if (index < MAX_INDEX) {
+								index++;
+								changeImage();
+							}
+							break;
+						default:
+							break;
+					}
+				});
+			});
+		})();
 	</script>
 </body>
+
 </html>

@@ -1,17 +1,35 @@
 <!DOCTYPE html>
 <html>
+
 <head>
 	<title>Reeks 2 oef2</title>
 	<meta charset="utf-8" />
 	<style>
 		/* general styles */
-		body { font-family: Arial; font-size: 14px; max-width: 600px; }
-		* { box-sizing: border-box; }
-		.assignment { margin-bottom: 20px; color: #4F81BD; }
-		.assignment ul, .assignment ol { padding-left: 15px; }
+		body {
+			font-family: Arial;
+			font-size: 14px;
+			max-width: 600px;
+		}
+
+		* {
+			box-sizing: border-box;
+		}
+
+		.assignment {
+			margin-bottom: 20px;
+			color: #4F81BD;
+		}
+
+		.assignment ul,
+		.assignment ol {
+			padding-left: 15px;
+		}
+
 		/* specific styles */
 	</style>
 </head>
+
 <body>
 	<div class="assignment">
 		<p>Opdracht (<a href="//bitmatters.be/o/ss/reeks2-2.webp">voorbeeld</a>)</p>
@@ -27,7 +45,21 @@
 	</ul>
 	<p>Aangeklikte link: <span id="msg"></span></p>
 	<script>
-		// your code here...
+		(function () {
+			'use strict';
+
+			window.addEventListener('load', function () {
+				let links = document.querySelectorAll('ul>li>a');
+				for (const link of links) {
+					link.addEventListener('click', function (e) {
+						e.preventDefault();
+						document.getElementById('msg').innerHTML = link.innerHTML + ' (<a href=' + link
+							.href + '> link </a>)';
+					});
+				}
+			});
+		})();
 	</script>
 </body>
+
 </html>
