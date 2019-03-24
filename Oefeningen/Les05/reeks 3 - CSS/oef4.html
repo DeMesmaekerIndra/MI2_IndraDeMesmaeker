@@ -34,7 +34,7 @@
 		.item {
 			margin: 0 30px;
 			cursor: pointer;
-			position: relative;	
+			position: relative;
 		}
 
 		.present {
@@ -85,18 +85,19 @@
 		(function () {
 			'use strict';
 
-			const ITEMS = document.getElementsByClassName('item');
+			window.addEventListener('load', function () {
+				const ITEMS = document.getElementsByClassName('item');
 
-			for (const ITEM of ITEMS) {
-				ITEM.addEventListener('click', function () {
-					let present = ITEM.querySelector('.present');
-					let gift = ITEM.querySelector('.gift');
+				for (const ITEM of ITEMS) {
+					ITEM.addEventListener('click', function () {
+						let present = ITEM.querySelector('.present');
+						let gift = ITEM.querySelector('.gift');
 
-					present.src = "//bitmatters.be/o/icn/box-open.png"
-					gift.classList.add('show');
-				});
-			}
-
+						present.src = '//bitmatters.be/o/icn/box-open.png';
+						gift.classList.add('show');
+					});
+				}
+			});
 		})();
 	</script>
 </body>
