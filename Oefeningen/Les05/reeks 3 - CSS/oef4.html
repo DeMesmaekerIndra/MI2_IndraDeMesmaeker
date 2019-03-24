@@ -1,28 +1,70 @@
 <!DOCTYPE html>
 <html>
+
 <head>
 	<title>Reeks 3 oef4</title>
 	<meta charset="utf-8" />
 	<style>
 		/* general styles */
-		body { font-family: Arial; font-size: 14px; max-width: 600px; }
-		* { box-sizing: border-box; }
-		.assignment { margin-bottom: 20px; color: #4F81BD; }
-		.assignment ul, .assignment ol { padding-left: 15px; }
-		/* specific styles */
-		.wrapper {display: flex; }
-		.item { margin: 0 30px; cursor: pointer; position: relative;}
-		.present { width: 80px; }
-		.gift { opacity: 0; width: 1px; position: absolute; top: 70px; left: 40px; transition: all 1s; }
-		.show .gift { left: -20px; width: 120px; opacity: 1; }
+		body {
+			font-family: Arial;
+			font-size: 14px;
+			max-width: 600px;
+		}
 
+		* {
+			box-sizing: border-box;
+		}
+
+		.assignment {
+			margin-bottom: 20px;
+			color: #4F81BD;
+		}
+
+		.assignment ul,
+		.assignment ol {
+			padding-left: 15px;
+		}
+
+		/* specific styles */
+		.wrapper {
+			display: flex;
+		}
+
+		.item {
+			margin: 0 30px;
+			cursor: pointer;
+			position: relative;	
+		}
+
+		.present {
+			width: 80px;
+		}
+
+		.gift {
+			opacity: 0;
+			width: 1px;
+			position: absolute;
+			top: 70px;
+			left: 40px;
+			transition: all 1s;
+		}
+
+		.show.gift {
+			left: -20px;
+			width: 120px;
+			opacity: 1;
+		}
 	</style>
 </head>
+
 <body>
 	<div class="assignment">
 		<p>Opdracht (<a href="//bitmatters.be/o/ss/reeks3-4.webp">voorbeeld</a>)</p>
 		<ol>
-			<li>toon de kadootjes in de dozen (gebruik <code>classList</code>); gebruik een CSS transitie op de <code>left</code>, <code>width</code> en <code>opacity</code> properties om het kadootje tevoorschijn te halen</li>
+			<li>toon de kadootjes in de dozen (gebruik <code>classList</code>); gebruik een CSS transitie op de
+				<code>left</code>, <code>width</code> en <code>opacity</code> properties om het kadootje tevoorschijn te
+				halen</li>
 		</ol>
 	</div>
 	<div class="wrapper">
@@ -40,7 +82,23 @@
 		</div>
 	</div>
 	<script>
-		// your code here...
+		(function () {
+			'use strict';
+
+			const ITEMS = document.getElementsByClassName('item');
+
+			for (const ITEM of ITEMS) {
+				ITEM.addEventListener('click', function () {
+					let present = ITEM.querySelector('.present');
+					let gift = ITEM.querySelector('.gift');
+
+					present.src = "//bitmatters.be/o/icn/box-open.png"
+					gift.classList.add('show');
+				});
+			}
+
+		})();
 	</script>
 </body>
+
 </html>
