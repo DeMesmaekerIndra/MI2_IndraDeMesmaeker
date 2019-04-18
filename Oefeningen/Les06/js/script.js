@@ -1,4 +1,3 @@
-;
 (function () {
     "use strict";
     let artisUrl = 'https://www.songsterr.com/a/ra/songs/byartists.json?artists=';
@@ -19,21 +18,25 @@
         }
 
         function handleSucces(data) {
-            console.log('status: ' + data.status);
+            //Remove loader gif
+            document.getElementById('loadAnimation').classList.add('hidden');
             
-            let tbody = table.querySelector('tbody');
-            
-            //Clear the table
-            while (tbody.hasChildNodes()) {
-                tbody.removeChild(tbody.firstChild);
-            }
-
             //Fill the table with the title & tabs
+            let tbody = table.querySelector('tbody');    
+                        
             for (let i = 0; i < data.length; i++) {   
-                let newRow = tbody.insertRow(i);             
-                newRow.insertCell(0).innerText = data[i].title;
-                newRow.cells[0].setAttribute('data-artist', '');
+                let newRow = tbody.insertRow(i);        
+                let artistCell = newRow.insertCell(0);
+                
+                artistCell.innerText = data[i].title;
+                artistCell.setAttribute('data-artist', '');
+
                 newRow.insertCell(1).innerText = data[i].tabTypes;
+
+                //Stop adding new items when the length exceeds 25
+                if (i === 25) {
+                    break;
+                }
             }
         }
 
@@ -41,15 +44,20 @@
             e.preventDefault();
             e.stopPropagation();
 
-            let inpArtist = document.getElementById('artist');
-            document.querySelector('thead').classList.remove('hidden');
-            document.querySelector('tbody').classList.add('table__loading');
+            let tbody = table.querySelector('tbody');
 
-            fetch(artisUrl + inpArtist.value)
+            //Clear the table
+            while (tbody.firstChild) {
+                tbody.removeChild(tbody.firstChild);
+            }           
+
+            document.getElementById('loadAnimation').classList.remove('hidden');
+
+            let inpArtist = document.getElementById('artist');
+            fetch(artisUrl + '"' + inpArtist.value + '"')
                 .then(handleResponse)
                 .then(handleSucces)
                 .catch(handleError);
         });
     });
-
 })();
