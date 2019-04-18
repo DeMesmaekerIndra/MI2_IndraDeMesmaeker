@@ -1,7 +1,8 @@
 (function () {
     "use strict";
-    let artisUrl = 'https://www.songsterr.com/a/ra/songs/byartists.json?artists=';
+    let artistUrl = 'https://www.songsterr.com/a/ra/songs/byartists.json?artists=';
     let songUrl = 'https://www.songsterr.com/a/ra/songs.json?pattern=';   
+    let songPageUrl = 'https://www.songsterr.com/a/wa/song?id='
 
     window.addEventListener('load', function () {        
 
@@ -18,17 +19,18 @@
         }
 
         function handleSucces(data) {
+            console.log(data);
             //Remove loader gif
             document.getElementById('loadAnimation').classList.add('hidden');
             
             //Fill the table with the title & tabs
             let tbody = table.querySelector('tbody');    
-                        
+
             for (let i = 0; i < data.length; i++) {   
                 let newRow = tbody.insertRow(i);        
                 let artistCell = newRow.insertCell(0);
                 
-                artistCell.innerText = data[i].title;
+                artistCell.innerHTML = '<a href="' + songPageUrl + data[i].id + '" target="_blank">' + data[i].title + '</a>';
                 artistCell.setAttribute('data-artist', '');
 
                 newRow.insertCell(1).innerText = data[i].tabTypes;
@@ -54,7 +56,7 @@
             document.getElementById('loadAnimation').classList.remove('hidden');
 
             let inpArtist = document.getElementById('artist');
-            fetch(artisUrl + '"' + inpArtist.value + '"')
+            fetch(artistUrl + '"' + inpArtist.value + '"')
                 .then(handleResponse)
                 .then(handleSucces)
                 .catch(handleError);
