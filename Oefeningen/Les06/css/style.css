@@ -40,7 +40,7 @@ a {
     color: rgba(165,42,42,1);
 }
 
-#artistName {
+.tooltipTextDecoration {
     position: absolute;
     background-color: rgba(165,42,42,1);
     color: white;
@@ -53,6 +53,10 @@ a {
 
 #songs td[data-artist] {
     cursor: help;
+}
+
+#tooltip{
+    position: absolute;
 }
 
 .hidden {

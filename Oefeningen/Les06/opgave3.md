@@ -47,7 +47,7 @@ Voorzie een link die doorlinkt in een ander venster (tabblad) naar de gegevens v
   * Bekijk op de https://www.songsterr.com/a/wa/api welke url je daarvoor moet samenstellen.
   * De linken openen altijd in hetzelfde, andere tabblad.
 
-### Toon de artiestnnaam
+### Toon de artiestnaam
 Wanneer de gebruiker met zijn cursor over de titel van het lied gaat, toon je de naam van de artiest(en).
   * Een eenvoudige title is een minimum
   * Wie iets meer uitdaging, of een 'eigen' effect wil, kan het volgende proberen :
