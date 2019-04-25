@@ -21,7 +21,7 @@
     /**
      * Function that hides the tooltip
      */
-    let hideTooltip = function () {       
+    let hideTooltip = function () {
         tooltip.classList.add('hidden');
     };
 
@@ -97,7 +97,19 @@
             document.getElementById('loadAnimation').classList.remove('hidden');
 
             let inpArtist = document.getElementById('artist');
-            fetch(artistUrl + '"' + inpArtist.value + '"')
+            let inpSong = document.getElementById('song')
+            let finalSearchString = '';
+
+            //If a song has been input it takes priority over the artist value
+            if (inpArtist.value != '') {
+                finalSearchString = artistUrl + '"' + inpArtist.value + '"';
+            }
+
+            if (inpSong.value != '') {
+                finalSearchString = songUrl + '"' + inpSong.value + '"';
+            }
+
+            fetch(finalSearchString)
                 .then(handleResponse)
                 .then(handleSucces)
                 .catch(handleError);
