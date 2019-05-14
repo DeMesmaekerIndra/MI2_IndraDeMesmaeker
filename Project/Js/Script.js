@@ -14,15 +14,17 @@
         return true;
     };
 
-    let removeField = function(){
+    let removeField = function () {
         let tbody = document.getElementById('minefield');
 
         while (tbody.childNodes.length > 0) {
             tbody.childNodes[0].remove();
         }
+
+        document.querySelector('table').classList.add('hidden', 'collapsed');
     };
 
-    let createField = function(rows, columns){
+    let createField = function (rows, columns) {
         let minefield = document.getElementById('minefield');
         removeField();
 
@@ -30,25 +32,26 @@
             let newRow = minefield.insertRow(i);
 
             for (let j = 0; j < columns; j++) {
-                newRow.insertCell(j);                
+                newRow.insertCell(j);
             }
-            
         }
-    };    
+
+        document.querySelector('table').classList.remove('hidden', 'collapsed');
+    };
 
     window.addEventListener('load', function () {
         let form = document.querySelector('form');
 
         form.addEventListener('submit', function (e) {
             e.preventDefault();
-            e.stopPropagation();            
+            e.stopPropagation();
 
             let inpName = document.getElementById('inpName');
             let inpRows = document.getElementById('inpRowSize');
             let inpColumns = document.getElementById('inpColumnSize');
 
-            let errName = document.getElementById('errName');            
-            let errRows = document.getElementById('errRows');            
+            let errName = document.getElementById('errName');
+            let errRows = document.getElementById('errRows');
             let errColumns = document.getElementById('errColumns');
 
             let isCorrect = true;
@@ -56,7 +59,7 @@
             errName.classList.add('hidden', 'collapsed');
             errRows.classList.add('hidden', 'collapsed');
             errColumns.classList.add('hidden', 'collapsed');
-            
+
             isCorrect &= checkInput(inpName, errName);
             isCorrect &= checkInput(inpRows, errRows);
             isCorrect &= checkInput(inpColumns, errColumns);
