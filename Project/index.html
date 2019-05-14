@@ -1,12 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
+    <link rel="stylesheet" href="Css/Style.css">
 </head>
+
 <body>
-    
+    <form action="">
+
+        <fieldset>
+            <legend>Player info</legend>
+            <div class="inputContainer">
+                <label for="inpName">Enter your player name</label>
+                <input type="text" name="inpName" id="inpName" placeholder="Your name here">
+            </div>
+        </fieldset>
+
+        <fieldset>
+            <legend>Dimensions:</legend>
+            <div class="inputContainer">
+                <label for="rowSize">How many rows do you want?: </label>
+                <input type="number" placeholder="4" max="10" min="4" name="inpRowSize" id="inpRowSize">
+            </div>
+
+            <div class="inputContainer">
+                <label for="inpColumnSize">How many columns do you want?: </label>
+                <input type="number" placeholder="4" max="10" min="4" name="inpColumnSize" id="inpColumnSize">
+            </div>
+        </fieldset>
+        <input type="submit" id="btnDone" value="Start playing!">
+    </form>
+
+    <table>
+        <tbody id="mineField"></tbody>
+    </table>
 </body>
+
 </html>
