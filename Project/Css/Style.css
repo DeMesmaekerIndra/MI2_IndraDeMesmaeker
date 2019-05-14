@@ -1,11 +1,22 @@
+/*GENERAL*/
+.hidden{
+    opacity: 0;
+}
+
+.collapsed{
+    height: 0;
+}
+
 /*FORM*/
 form {
     display: flex;
     flex-direction: column;
-    max-width: 300px;
+    flex-wrap: nowrap;  
+
+    max-width: 400px;
+    min-width: 360px;
 
     justify-content: space-between;
-    height: 12vh;
     min-height: 100px;
 }
 
@@ -19,21 +30,28 @@ form {
     justify-content: space-between;
 }
 
-form>label {
-    width: 50%;
+.inputContainer>label {
+    width: 100%;
 }
 
-input[type="text"]{
-
+label>input[type="text"]{
+    max-width: 55%;
+    min-width: 50%
+    
 }
 
-input[type="number"] {
+label>input[type="number"] {
     max-width: 30px;
-    height: 20px; 
+    height: 11px;
+    float: right;
 }
 
 #btnDone{
     align-self: flex-end;
+}
+
+.errorMsg{
+    color: red;
 }
 
 /*TABLE: MINEFIELD*/
@@ -42,3 +60,4 @@ tbody>td{
     color: grey;
     border: white;
 }
+
