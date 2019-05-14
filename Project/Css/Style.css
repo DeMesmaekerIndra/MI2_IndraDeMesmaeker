@@ -1,9 +1,15 @@
 /*GENERAL*/
-.hidden{
+body,
+html {
+    margin: 0;
+    padding: 1%;
+}
+
+.hidden {
     opacity: 0;
 }
 
-.collapsed{
+.collapsed {
     height: 0;
 }
 
@@ -11,13 +17,13 @@
 form {
     display: flex;
     flex-direction: column;
-    flex-wrap: nowrap;  
+    flex-wrap: nowrap;
 
     max-width: 400px;
-    min-width: 360px;
+    min-width: 355px;
 
     justify-content: space-between;
-    min-height: 100px;
+    min-height: 150px;
 }
 
 .inputContainer {
@@ -34,10 +40,14 @@ form {
     width: 100%;
 }
 
-label>input[type="text"]{
-    max-width: 55%;
-    min-width: 50%
-    
+label {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+label>input[type="text"] {
+    min-width: 50%;
+    float: right;
 }
 
 label>input[type="number"] {
@@ -46,18 +56,27 @@ label>input[type="number"] {
     float: right;
 }
 
-#btnDone{
+#btnDone {
     align-self: flex-end;
 }
 
-.errorMsg{
+.errorMsg {
     color: red;
 }
 
 /*TABLE: MINEFIELD*/
-
-tbody>td{
+tbody>td {
     color: grey;
     border: white;
 }
 
+@media only screen and (max-width: 720px) {
+
+    html,
+    body {
+        margin: 0;
+        padding: 0;
+    }
+
+    ;
+}
