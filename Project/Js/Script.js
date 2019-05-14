@@ -3,12 +3,12 @@
     //////////////////////
     ///GLOBAL VARIABLES///
     //////////////////////
-
     let minefieldData = null;
 
     ///////////////
     ///FUNCTIONS///
     ///////////////
+
     let checkInput = function (input, errorElem) {
         if (input.value.length === 0) {
             errorElem.innerText = 'Please input a value';
@@ -23,8 +23,14 @@
         return true;
     };
 
-    let cellClicked = function (e) {        
-        alert(e.path[0].getAttribute('data-id') + ' has been clicked');
+    let cellClicked = function (e) {
+        let cell = e.path[0];
+        let cellId = parseInt(cell.getAttribute('data-id'));        
+
+        if (minefieldData[cellId].hasBomb) {
+            cell.classList.add('bomb');
+            alert('Boom!');
+        }
     };
 
     let removeField = function () {
@@ -41,17 +47,17 @@
         let cellAmount = minefieldData.length;
         let bombAmount = 0;
 
-        if (cellAmount < 16) {
+        if (cellAmount <= 16) {
             bombAmount = 4;
-        } else if (cellAmount < 25) {
+        } else if (cellAmount <= 25) {
             bombAmount = 6;
-        } else if (cellAmount < 36) {
+        } else if (cellAmount <= 36) {
             bombAmount = 9;
-        } else if (cellAmount < 49) {
+        } else if (cellAmount <= 49) {
             bombAmount = 13;
-        } else if (cellAmount < 64) {
+        } else if (cellAmount <= 64) {
             bombAmount = 18;
-        } else if (cellAmount < 81) {
+        } else if (cellAmount <= 81) {
             bombAmount = 24;
         } else {
             bombAmount = 32;
@@ -93,7 +99,7 @@
         populateWithBombs();
 
         document.querySelector('table').classList.remove('hidden', 'collapsed');
-    };    
+    };
 
     /////////////////////
     ///EVENT LISTENERS///
@@ -126,6 +132,7 @@
             if (!isCorrect) {
                 return;
             }
+
             createField(parseInt(inpRows.value), parseInt(inpColumns.value));
         });
     });
