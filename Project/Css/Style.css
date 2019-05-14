@@ -68,7 +68,7 @@ label>input[type="number"] {
 /*TABLE: MINEFIELD*/
 table{
     margin: 2px;
-    width: calc(100% - 4px);
+    width: calc(100% - 4px);    
 }
 tbody>tr{
     height: 25px;

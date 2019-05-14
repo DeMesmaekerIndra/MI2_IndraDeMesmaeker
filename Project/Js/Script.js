@@ -1,5 +1,5 @@
 (function () {
-
+    'use strict';
     let checkInput = function (input, errorElem) {
         if (input.value.length === 0) {
             errorElem.innerText = 'Please input a value';
@@ -14,8 +14,17 @@
         return true;
     };
 
+    let removeField = function(){
+        let tbody = document.getElementById('minefield');
+
+        while (tbody.childNodes.length > 0) {
+            tbody.childNodes[0].remove();
+        }
+    };
+
     let createField = function(rows, columns){
         let minefield = document.getElementById('minefield');
+        removeField();
 
         for (let i = 0; i < rows; i++) {
             let newRow = minefield.insertRow(i);
@@ -25,7 +34,7 @@
             }
             
         }
-    };
+    };    
 
     window.addEventListener('load', function () {
         let form = document.querySelector('form');
@@ -47,7 +56,7 @@
             errName.classList.add('hidden', 'collapsed');
             errRows.classList.add('hidden', 'collapsed');
             errColumns.classList.add('hidden', 'collapsed');
-
+            
             isCorrect &= checkInput(inpName, errName);
             isCorrect &= checkInput(inpRows, errRows);
             isCorrect &= checkInput(inpColumns, errColumns);
