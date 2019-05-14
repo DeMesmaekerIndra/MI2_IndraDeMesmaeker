@@ -11,37 +11,34 @@ html {
 
 .collapsed {
     height: 0;
+    margin: 0;
+    padding: 0;
 }
 
 /*FORM*/
 form {
     display: flex;
-    flex-direction: column;
-    flex-wrap: nowrap;
+
+    flex-flow: column nowrap;
 
     width: calc(100% - 2%);
     min-width: 300px;
-
-    justify-content: center;
     min-height: 150px;
+
+    align-items: stretch;
 }
 
 .inputContainer {
     display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
 
-    justify-content: center;
-}
+    flex-flow: column nowrap;
 
-.inputContainer>label {
-    width: 100%;
-    text-align: center;
+    align-items: center;
 }
 
 input[type="text"] {
-    min-width: 50%;
-    align-just: center;
+    text-align: center;
+    min-width: 30%;
 }
 
 label>input[type="number"] {
@@ -51,6 +48,7 @@ label>input[type="number"] {
 
 .errorMsg {
     color: red;
+    margin-bottom: 10px;
 }
 
 #btnDone {
