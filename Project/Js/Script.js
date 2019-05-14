@@ -1,5 +1,14 @@
 (function () {
     'use strict';
+    //////////////////////
+    ///GLOBAL VARIABLES///
+    //////////////////////
+
+    let minefieldData = null;
+
+    ///////////////
+    ///FUNCTIONS///
+    ///////////////
     let checkInput = function (input, errorElem) {
         if (input.value.length === 0) {
             errorElem.innerText = 'Please input a value';
@@ -14,6 +23,10 @@
         return true;
     };
 
+    let cellClicked = function (e) {        
+        alert(e.path[0].getAttribute('data-id') + ' has been clicked');
+    };
+
     let removeField = function () {
         let tbody = document.getElementById('minefield');
 
@@ -24,21 +37,67 @@
         document.querySelector('table').classList.add('hidden', 'collapsed');
     };
 
+    let populateWithBombs = function () {
+        let cellAmount = minefieldData.length;
+        let bombAmount = 0;
+
+        if (cellAmount < 16) {
+            bombAmount = 4;
+        } else if (cellAmount < 25) {
+            bombAmount = 6;
+        } else if (cellAmount < 36) {
+            bombAmount = 9;
+        } else if (cellAmount < 49) {
+            bombAmount = 13;
+        } else if (cellAmount < 64) {
+            bombAmount = 18;
+        } else if (cellAmount < 81) {
+            bombAmount = 24;
+        } else {
+            bombAmount = 32;
+        }
+
+        let bombsPlaced = 0;
+        while (bombsPlaced < bombAmount) {
+            let index = Math.floor(Math.random() * cellAmount);
+            if (minefieldData[index].hasBomb === false) {
+                minefieldData[index].hasBomb = true;
+                bombsPlaced++;
+            }
+        }
+    };
+
     let createField = function (rows, columns) {
         let minefield = document.getElementById('minefield');
         removeField();
+
+        minefieldData = [];
+        let id = 0;
 
         for (let i = 0; i < rows; i++) {
             let newRow = minefield.insertRow(i);
 
             for (let j = 0; j < columns; j++) {
-                newRow.insertCell(j);
+
+                let newCell = newRow.insertCell(j);
+
+                minefieldData[id] = {
+                    hasBomb: false,
+                    bombAmount: 0
+                };
+                newCell.setAttribute('data-id', id++);
+                newCell.addEventListener('click', cellClicked);
             }
         }
 
-        document.querySelector('table').classList.remove('hidden', 'collapsed');
-    };
+        populateWithBombs();
 
+        document.querySelector('table').classList.remove('hidden', 'collapsed');
+    };    
+
+    /////////////////////
+    ///EVENT LISTENERS///
+    /////////////////////
     window.addEventListener('load', function () {
         let form = document.querySelector('form');
 
@@ -64,9 +123,10 @@
             isCorrect &= checkInput(inpRows, errRows);
             isCorrect &= checkInput(inpColumns, errColumns);
 
-            if (isCorrect) {
-                createField(inpRows.value, inpColumns.value);
+            if (!isCorrect) {
+                return;
             }
+            createField(parseInt(inpRows.value), parseInt(inpColumns.value));
         });
     });
 })();
