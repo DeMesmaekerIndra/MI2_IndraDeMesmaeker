@@ -66,13 +66,21 @@ tbody>tr {
 }
 
 tbody>tr>td {
-    background-color: grey;
+    background-color: darkgray;
 
     width: 9px;
 }
 
+td>span{
+    color: black;
+    text-align: center;
+}
 .bomb {
     background: red;
+}
+
+.EmptyCell{
+    background: lightgray;
 }
 
 @media only screen and (max-width: 720px) {

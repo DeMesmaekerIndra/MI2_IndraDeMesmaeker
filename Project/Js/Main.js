@@ -2,13 +2,13 @@
     'use strict';
     //////////////////////
     ///GLOBAL VARIABLES///
-    //////////////////////
-    let minefieldData = null;
+    //////////////////////    
+    let minefieldData = [];
+    let rows, columns = 0;
 
     ///////////////
     ///FUNCTIONS///
     ///////////////
-
     let checkInput = function (input, errorElem) {
         if (input.value.length === 0) {
             errorElem.innerText = 'Please input a value';
@@ -25,11 +25,14 @@
 
     let cellClicked = function (e) {
         let cell = e.path[0];
-        let cellId = parseInt(cell.getAttribute('data-id'));        
+        let cellId = parseInt(cell.getAttribute('data-id'));
 
         if (minefieldData[cellId].hasBomb) {
             cell.classList.add('bomb');
-            alert('Boom!');
+        } else if (minefieldData[cellId].bombAmount === 0) {
+            cell.classList.add('emptycell');
+        } else {
+            cell.innerHTML = '<span>' + minefieldData[cellId].bombAmount + '</span>';
         }
     };
 
@@ -43,42 +46,45 @@
         document.querySelector('table').classList.add('hidden', 'collapsed');
     };
 
-    let populateWithBombs = function () {
-        let cellAmount = minefieldData.length;
-        let bombAmount = 0;
+    let addBombAmount = function (index, offset) {
+        let finalIndex = index + Math.abs(offset);
 
-        if (cellAmount <= 16) {
-            bombAmount = 4;
-        } else if (cellAmount <= 25) {
-            bombAmount = 6;
-        } else if (cellAmount <= 36) {
-            bombAmount = 9;
-        } else if (cellAmount <= 49) {
-            bombAmount = 13;
-        } else if (cellAmount <= 64) {
-            bombAmount = 18;
-        } else if (cellAmount <= 81) {
-            bombAmount = 24;
-        } else {
-            bombAmount = 32;
+        if (finalIndex < minefieldData.length) {
+            minefieldData[finalIndex].bombAmount++;
         }
 
+        finalIndex = index + (Math.abs(offset) * -1);
+
+        if (finalIndex >= 0) {
+            minefieldData[finalIndex].bombAmount++;
+        }
+    };
+
+    let populateWithBombs = function () {
+        let cellAmount = minefieldData.length;
+        let max = Math.ceil(cellAmount * 0.4);
+        let min = Math.floor(cellAmount * 0.2);
+        let totalBombAmount = Math.floor(Math.random() * (max - min)) + min;
         let bombsPlaced = 0;
-        while (bombsPlaced < bombAmount) {
+        console.log(totalBombAmount + '/' + cellAmount);
+        
+        while (bombsPlaced < totalBombAmount) {
             let index = Math.floor(Math.random() * cellAmount);
             if (minefieldData[index].hasBomb === false) {
                 minefieldData[index].hasBomb = true;
                 bombsPlaced++;
+
+                addBombAmount(index, 1);
+                addBombAmount(index, columns);
             }
         }
     };
 
-    let createField = function (rows, columns) {
+    let createField = function () {
         let minefield = document.getElementById('minefield');
-        removeField();
-
-        minefieldData = [];
         let id = 0;
+
+        removeField();
 
         for (let i = 0; i < rows; i++) {
             let newRow = minefield.insertRow(i);
@@ -91,12 +97,13 @@
                     hasBomb: false,
                     bombAmount: 0
                 };
+
                 newCell.setAttribute('data-id', id++);
                 newCell.addEventListener('click', cellClicked);
             }
         }
 
-        populateWithBombs();
+        populateWithBombs(rows);
 
         document.querySelector('table').classList.remove('hidden', 'collapsed');
     };
@@ -133,7 +140,10 @@
                 return;
             }
 
-            createField(parseInt(inpRows.value), parseInt(inpColumns.value));
+            rows = parseInt(inpRows.value);
+            columns = parseInt(inpColumns.value);
+
+            createField();
         });
     });
 })();
