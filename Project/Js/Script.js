@@ -15,7 +15,16 @@
     };
 
     let createField = function(rows, columns){
+        let minefield = document.getElementById('minefield');
 
+        for (let i = 0; i < rows; i++) {
+            let newRow = minefield.insertRow(i);
+
+            for (let j = 0; j < columns; j++) {
+                newRow.insertCell(j);                
+            }
+            
+        }
     };
 
     window.addEventListener('load', function () {
