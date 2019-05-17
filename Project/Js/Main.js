@@ -1,9 +1,38 @@
 (function () {
     'use strict';
+    let minefieldData;
+
+    class cell {
+        constructor(yPos, xPos, tdElement) {
+            this.cssClass = '';
+            this.hasBomb = false;
+            this.surroundingBombs = 0;
+
+            this.yPos = yPos;
+            this.xPos = xPos;
+            this.correspondingElement = tdElement;
+        }
+
+        get isBomb() {
+            return this.hasBomb;
+        }
+
+        get getSurroundingBombs() {
+            return this.surroundingBombs;
+        }
+
+        incrementSurroundingBombs() {
+            this.surroundingBombs++;
+        }
+
+        setAsBomb() {
+            this.hasBomb = true;
+        }
+    }
+
     //////////////////////
     ///GLOBAL VARIABLES///
-    //////////////////////    
-    let minefieldData = [];
+    //////////////////////
     let rows, columns = 0;
 
     ///////////////
@@ -14,6 +43,7 @@
             errorElem.innerText = 'Please input a value';
             errorElem.classList.remove('hidden', 'collapsed');
             return false;
+
         } else if (input.value.length < 3 && input.name === 'inpName') {
             errorElem.innerText = 'Please use a username of atleast 3 characters';
             errorElem.classList.remove('hidden', 'collapsed');
@@ -30,13 +60,20 @@
         if (minefieldData[cellId].hasBomb) {
             cell.classList.add('bomb');
         } else if (minefieldData[cellId].bombAmount === 0) {
-            cell.classList.add('emptycell');
+            cell.classList.add('clickedCell');
         } else {
+            cell.classList.add('clickedCell');
             cell.innerHTML = '<span>' + minefieldData[cellId].bombAmount + '</span>';
         }
     };
 
-    let removeField = function () {
+    let resetField = function () {
+        //Clear the array
+        if (minefieldData !== undefined) {
+            minefieldData.length = 0;
+        }
+
+        //Reset the actual playingfield
         let tbody = document.getElementById('minefield');
 
         while (tbody.childNodes.length > 0) {
@@ -46,64 +83,71 @@
         document.querySelector('table').classList.add('hidden', 'collapsed');
     };
 
-    let addBombAmount = function (index, offset) {
-        let finalIndex = index + Math.abs(offset);
+    let addBombAmount = function (bombXpos, bombYPos) {
 
-        if (finalIndex < minefieldData.length) {
-            minefieldData[finalIndex].bombAmount++;
-        }
-
-        finalIndex = index + (Math.abs(offset) * -1);
-
-        if (finalIndex >= 0) {
-            minefieldData[finalIndex].bombAmount++;
+        for (let yPos = bombYPos - 1; yPos < bombYPos + 1; yPos++) {
+            for (let xPos = bombXpos - 1; xPos < bombXpos + 1; xPos++) {
+                let cell = minefieldData[yPos][xPos];
+                if (!cell.hasBomb) {
+                    cell.incrementSurroundingBombs;
+                }
+            }
         }
     };
 
     let populateWithBombs = function () {
         let cellAmount = minefieldData.length;
+        let bombsPlaced = 0;
+
+        //Determin outerbounds
         let max = Math.ceil(cellAmount * 0.4);
         let min = Math.floor(cellAmount * 0.2);
-        let totalBombAmount = Math.floor(Math.random() * (max - min)) + min;
-        let bombsPlaced = 0;
-        console.log(totalBombAmount + '/' + cellAmount);
-        
-        while (bombsPlaced < totalBombAmount) {
-            let index = Math.floor(Math.random() * cellAmount);
-            if (minefieldData[index].hasBomb === false) {
-                minefieldData[index].hasBomb = true;
-                bombsPlaced++;
 
-                addBombAmount(index, 1);
-                addBombAmount(index, columns);
+        //Calculate the bomb amount
+        let totalBombAmount = Math.floor(Math.random() * (max - min)) + min;
+
+        //Set the bombs to active
+        while (bombsPlaced < totalBombAmount) {
+            let yPos = Math.floor(Math.random() * rows);
+            let xPos = Math.floor(Math.random() * columns);
+
+            if (minefieldData[yPos][xPos].hasBomb === true) {
+                continue;
             }
+
+            minefieldData[yPos][xPos].hasBomb = true;
+            bombsPlaced++;
+
+            addBombAmount(cellIndex, cellAmount);
         }
     };
 
     let createField = function () {
-        let minefield = document.getElementById('minefield');
-        let id = 0;
+        let tbody = document.getElementById('minefield');
 
-        removeField();
+        resetField();
 
+        //Create new row & cell elements on the page.
+        //Fill the jagged array with cell objects
         for (let i = 0; i < rows; i++) {
-            let newRow = minefield.insertRow(i);
+            let newRow = tbody.insertRow(i);
+            let cells = [];
 
             for (let j = 0; j < columns; j++) {
 
                 let newCell = newRow.insertCell(j);
 
-                minefieldData[id] = {
-                    hasBomb: false,
-                    bombAmount: 0
-                };
+                newCell.setAttribute('data-Ypos', i);
+                newCell.setAttribute('data-Xpos', j);
 
-                newCell.setAttribute('data-id', id++);
                 newCell.addEventListener('click', cellClicked);
+
+                cells.push(new cell(i, j, newCell));
             }
+            minefieldData.push(cells);
         }
 
-        populateWithBombs(rows);
+        populateWithBombs();
 
         document.querySelector('table').classList.remove('hidden', 'collapsed');
     };
@@ -142,6 +186,7 @@
 
             rows = parseInt(inpRows.value);
             columns = parseInt(inpColumns.value);
+            minefieldData = [];
 
             createField();
         });

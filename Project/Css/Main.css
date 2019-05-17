@@ -18,7 +18,6 @@ html {
 /*FORM*/
 form {
     display: flex;
-
     flex-flow: column nowrap;
 
     width: calc(100% - 2%);
@@ -30,15 +29,15 @@ form {
 
 .inputContainer {
     display: flex;
-
     flex-flow: column nowrap;
 
     align-items: center;
 }
 
 input[type="text"] {
-    text-align: center;
     min-width: 30%;
+
+    text-align: center;
 }
 
 label>input[type="number"] {
@@ -67,20 +66,21 @@ tbody>tr {
 
 tbody>tr>td {
     background-color: darkgray;
-
     width: 9px;
 }
 
-td>span{
+td>span {
     color: black;
     text-align: center;
 }
+
 .bomb {
     background: red;
 }
 
-.EmptyCell{
+.clickedCell {
     background: lightgray;
+    text-align: center;
 }
 
 @media only screen and (max-width: 720px) {
