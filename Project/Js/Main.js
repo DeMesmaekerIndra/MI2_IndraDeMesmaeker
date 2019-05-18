@@ -2,14 +2,13 @@
     'use strict';
     let minefieldData;
 
+    //////////////
+    ///CLASSES///
+    /////////////
     class cell {
-        constructor(yPos, xPos) {
-            this.cssClass = '';
+        constructor() {
             this.bomb = false;
             this.surroundingBombs = 0;
-
-            this.yPos = yPos;
-            this.xPos = xPos;
         }
 
         get getBomb() {
@@ -32,29 +31,9 @@
         }
     }
 
-    //////////////////////
-    ///GLOBAL VARIABLES///
-    //////////////////////
-    let rows, columns = 0;
-
     ///////////////
     ///FUNCTIONS///
     ///////////////
-    let checkInput = function (input, errorElem) {
-        if (input.value.length === 0) {
-            errorElem.innerText = 'Please input a value';
-            errorElem.classList.remove('hidden', 'collapsed');
-            return false;
-
-        } else if (input.value.length < 3 && input.name === 'inpName') {
-            errorElem.innerText = 'Please use a username of atleast 3 characters';
-            errorElem.classList.remove('hidden', 'collapsed');
-            return false;
-        }
-
-        return true;
-    };
-
     let cellClicked = function (cell, yPos, xPos) {
         let cellData = minefieldData[yPos][xPos];
 
@@ -66,22 +45,6 @@
             cell.classList.add('clickedCell');
             cell.innerHTML = '<span>' + cellData.getSurroundingBombs + '</span>';
         }
-    };
-
-    let resetField = function () {
-        //Clear the array
-        if (minefieldData !== undefined) {
-            minefieldData.length = 0;
-        }
-
-        //Reset the actual playingfield
-        let tbody = document.getElementById('minefield');
-
-        while (tbody.childNodes.length > 0) {
-            tbody.childNodes[0].remove();
-        }
-
-        document.querySelector('table').classList.add('hidden', 'collapsed');
     };
 
     let addBombAmount = function (bombXpos, bombYPos) {
@@ -106,8 +69,8 @@
         }
     };
 
-    let populateWithBombs = function () {
-        let cellAmount = minefieldData.length * minefieldData[0].length;
+    let populateWithBombs = function (rows, columns) {
+        let cellAmount =  rows * columns;
         let bombsPlaced = 0;
 
         //Determine outerbounds
@@ -132,7 +95,23 @@
         }
     };
 
-    let createField = function () {
+    let resetField = function () {
+        //Clear the array
+        if (minefieldData !== undefined) {
+            minefieldData.length = 0;
+        }
+
+        //Reset the actual playingfield
+        let tbody = document.getElementById('minefield');
+
+        while (tbody.childNodes.length > 0) {
+            tbody.childNodes[0].remove();
+        }
+
+        document.querySelector('table').classList.add('hidden', 'collapsed');
+    };
+
+    let createField = function (rows, columns) {
         let tbody = document.getElementById('minefield');
 
         resetField();
@@ -146,15 +125,29 @@
             for (let j = 0; j < columns; j++) {
 
                 newRow.insertCell(j);
-                cells.push(new cell(i, j));
+                cells.push(new cell());
             }
 
             minefieldData.push(cells);
         }
 
-        populateWithBombs();
-
+        populateWithBombs(rows, columns);
         document.querySelector('table').classList.remove('hidden', 'collapsed');
+    };
+
+    let checkInput = function (input, errorElem) {
+        if (input.value.length === 0) {
+            errorElem.innerText = 'Please input a value';
+            errorElem.classList.remove('hidden', 'collapsed');
+            return false;
+
+        } else if (input.value.length < 3 && input.name === 'inpName') {
+            errorElem.innerText = 'Please use a username of atleast 3 characters';
+            errorElem.classList.remove('hidden', 'collapsed');
+            return false;
+        }
+
+        return true;
     };
 
     /////////////////////
@@ -189,14 +182,11 @@
                 return;
             }
 
-            rows = parseInt(inpRows.value);
-            columns = parseInt(inpColumns.value);
             minefieldData = [];
-
-            createField();
+            createField(parseInt(inpRows.value), parseInt(inpColumns.value));
         });
 
-        document.getElementById('minefield').addEventListener('click', function(e){
+        document.getElementById('minefield').addEventListener('click', function (e) {
             if (e.path[0].tagName === 'TD') {
                 cellClicked(e.path[0], e.path[0].cellIndex, e.path[1].rowIndex);
             }
