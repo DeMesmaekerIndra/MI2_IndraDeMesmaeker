@@ -3,14 +3,13 @@
     let minefieldData;
 
     class cell {
-        constructor(yPos, xPos, tdElement) {
+        constructor(yPos, xPos) {
             this.cssClass = '';
             this.bomb = false;
             this.surroundingBombs = 0;
 
             this.yPos = yPos;
             this.xPos = xPos;
-            this.correspondingElement = tdElement;
         }
 
         get getBomb() {
@@ -56,11 +55,7 @@
         return true;
     };
 
-    let cellClicked = function (e) {
-        let cell = e.path[0];
-        let yPos = e.path[1].rowIndex;
-        let xPos = cell.cellIndex;
-
+    let cellClicked = function (cell, yPos, xPos) {
         let cellData = minefieldData[yPos][xPos];
 
         if (cellData.getBomb) {
@@ -90,15 +85,15 @@
     };
 
     let addBombAmount = function (bombXpos, bombYPos) {
-        let XposMaxium = minefieldData[0].length;
-        let yPosMaximum = minefieldData.length;
+        let XposMaxium = minefieldData[0].length - 1;
+        let yPosMaximum = minefieldData.length - 1;
 
-        for (let yPos = bombYPos - 1; yPos < bombYPos + 1; yPos++) {
+        for (let yPos = bombYPos - 1; yPos <= bombYPos + 1; yPos++) {
             if (yPos > yPosMaximum || yPos < 0) {
                 continue;
             }
 
-            for (let xPos = bombXpos - 1; xPos < bombXpos + 1; xPos++) {
+            for (let xPos = bombXpos - 1; xPos <= bombXpos + 1; xPos++) {
                 if ((xPos > XposMaxium || xPos < 0)) {
                     continue;
                 }
@@ -150,10 +145,8 @@
 
             for (let j = 0; j < columns; j++) {
 
-                let newCell = newRow.insertCell(j);
-
-                newCell.addEventListener('click', cellClicked);
-                cells.push(new cell(i, j, newCell));
+                newRow.insertCell(j);
+                cells.push(new cell(i, j));
             }
 
             minefieldData.push(cells);
@@ -201,6 +194,12 @@
             minefieldData = [];
 
             createField();
+        });
+
+        document.getElementById('minefield').addEventListener('click', function(e){
+            if (e.path[0].tagName === 'TD') {
+                cellClicked(e.path[0], e.path[0].cellIndex, e.path[1].rowIndex);
+            }
         });
     });
 })();
