@@ -5,7 +5,7 @@
     class cell {
         constructor(yPos, xPos, tdElement) {
             this.cssClass = '';
-            this.hasBomb = false;
+            this.bomb = false;
             this.surroundingBombs = 0;
 
             this.yPos = yPos;
@@ -13,8 +13,15 @@
             this.correspondingElement = tdElement;
         }
 
-        get isBomb() {
-            return this.hasBomb;
+        get getBomb() {
+            return this.bomb;
+        }
+
+        /**
+         * @param {boolean} value
+         */
+        set setBomb(value) {
+            this.bomb = value;
         }
 
         get getSurroundingBombs() {
@@ -23,10 +30,6 @@
 
         incrementSurroundingBombs() {
             this.surroundingBombs++;
-        }
-
-        setAsBomb() {
-            this.hasBomb = true;
         }
     }
 
@@ -55,15 +58,18 @@
 
     let cellClicked = function (e) {
         let cell = e.path[0];
-        let cellId = parseInt(cell.getAttribute('data-id'));
+        let yPos = e.path[1].rowIndex;
+        let xPos = cell.cellIndex;
 
-        if (minefieldData[cellId].hasBomb) {
+        let cellData = minefieldData[yPos][xPos];
+
+        if (cellData.getBomb) {
             cell.classList.add('bomb');
-        } else if (minefieldData[cellId].bombAmount === 0) {
+        } else if (cellData.getSurroundingBombs === 0) {
             cell.classList.add('clickedCell');
         } else {
             cell.classList.add('clickedCell');
-            cell.innerHTML = '<span>' + minefieldData[cellId].bombAmount + '</span>';
+            cell.innerHTML = '<span>' + cellData.getSurroundingBombs + '</span>';
         }
     };
 
@@ -84,41 +90,50 @@
     };
 
     let addBombAmount = function (bombXpos, bombYPos) {
+        let XposMaxium = minefieldData[0].length;
+        let yPosMaximum = minefieldData.length;
 
         for (let yPos = bombYPos - 1; yPos < bombYPos + 1; yPos++) {
+            if (yPos > yPosMaximum || yPos < 0) {
+                continue;
+            }
+
             for (let xPos = bombXpos - 1; xPos < bombXpos + 1; xPos++) {
+                if ((xPos > XposMaxium || xPos < 0)) {
+                    continue;
+                }
+
                 let cell = minefieldData[yPos][xPos];
-                if (!cell.hasBomb) {
-                    cell.incrementSurroundingBombs;
+                if (!cell.getBomb) {
+                    cell.incrementSurroundingBombs();
                 }
             }
         }
     };
 
     let populateWithBombs = function () {
-        let cellAmount = minefieldData.length;
+        let cellAmount = minefieldData.length * minefieldData[0].length;
         let bombsPlaced = 0;
 
-        //Determin outerbounds
+        //Determine outerbounds
         let max = Math.ceil(cellAmount * 0.4);
         let min = Math.floor(cellAmount * 0.2);
-
-        //Calculate the bomb amount
         let totalBombAmount = Math.floor(Math.random() * (max - min)) + min;
 
         //Set the bombs to active
         while (bombsPlaced < totalBombAmount) {
             let yPos = Math.floor(Math.random() * rows);
             let xPos = Math.floor(Math.random() * columns);
+            let cellData = minefieldData[yPos][xPos];
 
-            if (minefieldData[yPos][xPos].hasBomb === true) {
+            if (cellData.getBomb === true) {
                 continue;
             }
 
-            minefieldData[yPos][xPos].hasBomb = true;
+            cellData.setBomb = true;
             bombsPlaced++;
 
-            addBombAmount(cellIndex, cellAmount);
+            addBombAmount(xPos, yPos);
         }
     };
 
@@ -137,13 +152,10 @@
 
                 let newCell = newRow.insertCell(j);
 
-                newCell.setAttribute('data-Ypos', i);
-                newCell.setAttribute('data-Xpos', j);
-
                 newCell.addEventListener('click', cellClicked);
-
                 cells.push(new cell(i, j, newCell));
             }
+
             minefieldData.push(cells);
         }
 
