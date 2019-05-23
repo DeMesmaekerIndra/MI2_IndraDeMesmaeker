@@ -234,6 +234,7 @@
     /////////////////////
     window.addEventListener('load', function () {
         let form = document.querySelector('form');
+        let minefield = document.getElementById('minefield');
 
         form.addEventListener('submit', function (e) {
             e.preventDefault();
@@ -265,9 +266,16 @@
             createField(parseInt(inpRows.value), parseInt(inpColumns.value));
         });
 
-        document.getElementById('minefield').addEventListener('click', function (e) {
+        minefield.addEventListener('click', function (e) {
             if (e.path[0].tagName === 'TD') {
                 cellClicked(e.path[1].rowIndex, e.path[0].cellIndex);
+            }
+        });
+
+        minefield.addEventListener('contextmenu', function (e) {
+            if (e.path[0].tagName === 'TD') {
+                e.path[0].classList.add('flag');
+                e.returnValue = false;
             }
         });
     });
