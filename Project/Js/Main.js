@@ -7,11 +7,12 @@
     /////////////
     class cell {
         constructor(td, y, x) {
-            this.bomb = false;
-            this.surroundingBombs = 0;
             this.correspondingTdElement = td;
             this.y = y;
             this.x = x;
+            
+            this.bomb = false;
+            this.surroundingBombs = 0;          
         }
 
         get getBomb() {
@@ -79,7 +80,7 @@
                     }
 
                     contourCellCollection.push(minefieldData[i][j]);
-                }                
+                }
             }
             currentCellIndex++;
         } while (currentCellIndex < contourCellCollection.length);
@@ -88,12 +89,8 @@
             let cell = cellData.getCorrespondingTd;
 
             if (cellData.getSurroundingBombs > 0) {
-                let newSpan = document.createElement('span');
-
-                newSpan.innerText = cellData.getSurroundingBombs;
-                cell.appendChild(newSpan);
-
                 cell.classList.add('clickedCell');
+                cell.classList.add('surroundingBomb__' + cellData.getSurroundingBombs)
             } else {
                 cell.classList.add('clickedCell');
             }
@@ -105,7 +102,7 @@
 
         if (cellData.getBomb) {
             cellData.correspondingTdElement.classList.add('bomb');
-        } else if (!cellData.getCorrespondingTd.classList.contains('clickedCell')){
+        } else if (!cellData.getCorrespondingTd.classList.contains('clickedCell')) {
             showContourCells(cellData);
         }
     };

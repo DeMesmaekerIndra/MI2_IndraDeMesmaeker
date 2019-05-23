@@ -36,7 +36,6 @@ form {
 
 input[type="text"] {
     min-width: 30%;
-
     text-align: center;
 }
 
@@ -55,18 +54,27 @@ label>input[type="number"] {
 }
 
 /*TABLE: MINEFIELD*/
+#minefieldContainer {
+    display: flex;
+    align-content: center;
+    justify-items: center;
+    justify-content: center;
+    align-items: center;
+}
+
 table {
     margin: 2px;
-    width: calc(100% - 4px);
+    max-width: 75%;
 }
 
 tbody>tr {
-    height: 25px;
+    height: 50px;
 }
 
 tbody>tr>td {
-    background-color: darkgray;
-    width: 9px;
+    background: url("Img/single-files/minesweeper_00.png");
+    background-size: 100% 100%;
+    width: 50px;
 }
 
 td>span {
@@ -74,13 +82,46 @@ td>span {
     text-align: center;
 }
 
+/*Table: CELL STATES*/
 .bomb {
-    background: red;
+    background-image: url("Img/single-files/minesweeper_06.png");
 }
 
 .clickedCell {
-    background: lightgray;
+    background-image: url("Img/single-files/minesweeper_01.png");
     text-align: center;
+}
+
+.surroundingBomb__1 {
+    background-image: url("Img/single-files/minesweeper_08.png");
+}
+
+.surroundingBomb__2 {
+    background-image: url("Img/single-files/minesweeper_09.png");
+}
+
+.surroundingBomb__3 {
+    background-image: url("Img/single-files/minesweeper_10.png");
+}
+
+.surroundingBomb__4 {
+    background-image: url("Img/single-files/minesweeper_11.png");
+}
+
+.surroundingBomb__5 {
+    background-image: url("Img/single-files/minesweeper_12.png");
+}
+
+.surroundingBomb__6 {
+    background-image: url("Img/single-files/minesweeper_13.png");
+}
+
+.surroundingBomb__7 {
+    background-image: url("Img/single-files/minesweeper_14.png");
+}
+
+.surroundingBomb__8 {
+    background-image: url("Img/single-files/minesweeper_15.png");
 }
 
 @media only screen and (max-width: 720px) {
