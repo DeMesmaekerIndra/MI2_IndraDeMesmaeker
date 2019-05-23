@@ -10,9 +10,9 @@
             this.correspondingTdElement = td;
             this.y = y;
             this.x = x;
-            
+
             this.bomb = false;
-            this.surroundingBombs = 0;          
+            this.surroundingBombs = 0;
         }
 
         get getBomb() {
@@ -50,6 +50,27 @@
     ///////////////
     ///FUNCTIONS///
     ///////////////
+
+    ///Interaction with UI///
+    let updateCells = function name(cellDataCollection) {
+
+        for (let cellData of cellDataCollection) {
+            let cell = cellData.getCorrespondingTd;
+
+            if (cell.classList.contains('clickedBomb')) {
+                continue;
+            }
+
+            if (cellData.getBomb) {
+                cell.classList.add('bomb');
+            } else if (cellData.getSurroundingBombs > 0) {
+                cell.classList.add('clickedCell', 'surroundingBomb__' + cellData.getSurroundingBombs);
+            } else {
+                cell.classList.add('clickedCell');
+            }
+        }
+    };
+
     let showContourCells = function (startCell) {
         let contourCellCollection = [];
         let currentCellIndex = 0;
@@ -85,28 +106,25 @@
             currentCellIndex++;
         } while (currentCellIndex < contourCellCollection.length);
 
-        for (let cellData of contourCellCollection) {
-            let cell = cellData.getCorrespondingTd;
-
-            if (cellData.getSurroundingBombs > 0) {
-                cell.classList.add('clickedCell');
-                cell.classList.add('surroundingBomb__' + cellData.getSurroundingBombs)
-            } else {
-                cell.classList.add('clickedCell');
-            }
-        }
+        updateCells(contourCellCollection);
     };
 
     let cellClicked = function (yPos, xPos) {
         let cellData = minefieldData[yPos][xPos];
 
         if (cellData.getBomb) {
-            cellData.correspondingTdElement.classList.add('bomb');
+            cellData.correspondingTdElement.classList.add('clickedBomb');
+
+            for (let row of minefieldData) {
+                updateCells(row);
+            }
+
         } else if (!cellData.getCorrespondingTd.classList.contains('clickedCell')) {
             showContourCells(cellData);
         }
     };
 
+    ///Creation & deletion of the field///
     let addBombAmount = function (bombYPos, bombXpos) {
         let XposMaxium = minefieldData[0].length - 1;
         let yPosMaximum = minefieldData.length - 1;
@@ -134,8 +152,8 @@
         let bombsPlaced = 0;
 
         //Determine outerbounds
-        let max = Math.ceil(cellAmount * 0.5);
-        let min = Math.ceil(cellAmount * 0.45);
+        let max = Math.ceil(cellAmount * 0.55);
+        let min = Math.ceil(cellAmount * 0.4);
         let totalBombAmount = Math.floor(Math.random() * (max - min)) + min;
 
         //Set the bombs to active
@@ -195,6 +213,7 @@
         document.querySelector('table').classList.remove('hidden', 'collapsed');
     };
 
+    ///Form checking//
     let checkInput = function (input, errorElem) {
         if (input.value.length === 0) {
             errorElem.innerText = 'Please input a value';

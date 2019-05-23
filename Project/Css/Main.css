@@ -83,13 +83,20 @@ td>span {
 }
 
 /*Table: CELL STATES*/
-.bomb {
+.clickedBomb {
     background-image: url("Img/single-files/minesweeper_06.png");
+}
+
+.bomb{
+    background-image:  url("Img/single-files/minesweeper_05.png")
+}
+
+.flag{
+    background-image: url("Img/single-files/minesweeper_02.png")
 }
 
 .clickedCell {
     background-image: url("Img/single-files/minesweeper_01.png");
-    text-align: center;
 }
 
 .surroundingBomb__1 {
@@ -130,5 +137,10 @@ td>span {
     body {
         margin: 0;
         padding: 0;
+    }
+
+    table{
+        max-width: 100%;
+        min-width: 300px;
     }
 }
