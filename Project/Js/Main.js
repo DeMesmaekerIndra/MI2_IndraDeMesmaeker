@@ -103,17 +103,20 @@
                         continue;
                     }
 
-                    if (minefieldData[i][j].getBomb || contourCellCollection.includes(minefieldData[i][j])) {
+                    let cellData = minefieldData[i][j];
+
+                    if (cellData.getBomb || contourCellCollection.includes(cellData)) {
                         continue;
                     }
 
-                    if (minefieldData[i][j].getCorrespondingTd.classList.contains('clickedCell')) {
+                    if (cellData.getCorrespondingTd.classList.contains('clickedCell')) {
                         continue;
                     }
 
-                    contourCellCollection.push(minefieldData[i][j]);
+                    contourCellCollection.push(cellData);
                 }
             }
+
             currentCellIndex++;
         } while (currentCellIndex < contourCellCollection.length);
 
@@ -182,7 +185,7 @@
         let bombsPlaced = 0;
 
         //Determine outerbounds
-        let max = Math.ceil(cellAmount * 0.55);
+        let max = Math.ceil(cellAmount * 0.65);
         let min = Math.ceil(cellAmount * 0.4);
         let totalBombAmount = Math.floor(Math.random() * (max - min)) + min;
 
@@ -282,7 +285,7 @@
     window.addEventListener('load', function () {
         let form = document.querySelector('form');
         let minefield = document.getElementById('minefield');
-        
+
         /**
          * Activates when user submits form, validates input, setup playingfield
          */
@@ -318,7 +321,7 @@
 
         /** 
          * Activates if the tbody has been clicked, Acts accordingly if a td element was clicked
-        */
+         */
         minefield.addEventListener('click', function (e) {
             if (e.path[0].tagName === 'TD') {
                 cellClicked(e.path[1].rowIndex, e.path[0].cellIndex);
@@ -332,7 +335,7 @@
         minefield.addEventListener('contextmenu', function (e) {
             if (e.path[0].tagName === 'TD') {
                 e.returnValue = false;
-                e.path[0].classList.add('flag');                
+                e.path[0].classList.add('flag');
             }
         });
     });
