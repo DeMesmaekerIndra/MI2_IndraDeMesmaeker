@@ -51,7 +51,14 @@
     ///FUNCTIONS///
     ///////////////
 
+    //////////////////////////
     ///Interaction with UI///
+
+    /**
+     * Function that receives a collection of cells 
+     * and determines what class should be added to them
+     * @param {Array} cellDataCollection Arrays of cells to be updated
+     */
     let updateCells = function name(cellDataCollection) {
 
         for (let cellData of cellDataCollection) {
@@ -71,6 +78,10 @@
         }
     };
 
+    /**
+     * Function that receives a clicked cell and finds surrounding non-bomb cells.
+     * @param {cell} startCell 
+     */
     let showContourCells = function (startCell) {
         let contourCellCollection = [];
         let currentCellIndex = 0;
@@ -109,6 +120,11 @@
         updateCells(contourCellCollection);
     };
 
+    /**
+     * function responsible that contains the logic of what should happen if a cell is clicked
+     * @param {number} yPos row position of the clicked cell
+     * @param {number} xPos column position of the clicked cell
+     */
     let cellClicked = function (yPos, xPos) {
         let cellData = minefieldData[yPos][xPos];
 
@@ -124,7 +140,15 @@
         }
     };
 
+    ///////////////////////////////////////
     ///Creation & deletion of the field///
+
+    /**
+     * Function receives the position of a recently placed bomb
+     * All 8 surrounding cells need to have their surroundingbomb count incremented
+     * @param {number} bombYPos Row position of the bomb
+     * @param {number} bombXpos Column position of the bomb
+     */
     let addBombAmount = function (bombYPos, bombXpos) {
         let XposMaxium = minefieldData[0].length - 1;
         let yPosMaximum = minefieldData.length - 1;
@@ -147,6 +171,12 @@
         }
     };
 
+    /**
+     *  Function responsible for activating a random amount of bombs
+     *  in the minefieldData arra
+     * @param {number} rows Amount of eows 
+     * @param {number} columns Amount of columns
+     */
     let populateWithBombs = function (rows, columns) {
         let cellAmount = rows * columns;
         let bombsPlaced = 0;
@@ -173,6 +203,10 @@
         }
     };
 
+    /**
+     * Resets the minefieldData array
+     * clears & hides the table
+     */
     let resetField = function () {
         //Clear the array
         if (minefieldData !== undefined) {
@@ -189,6 +223,12 @@
         document.querySelector('table').classList.add('hidden', 'collapsed');
     };
 
+    /**
+     * Function rresponsible for creating td elements & cell objects
+     * Pushes the cell objects into a multidimensional array minefieldData
+     * @param {number} rows Amount of rows
+     * @param {number} columns Amount of columns
+     */
     let createField = function (rows, columns) {
         let tbody = document.getElementById('minefield');
 
@@ -213,7 +253,14 @@
         document.querySelector('table').classList.remove('hidden', 'collapsed');
     };
 
-    ///Form checking//
+    ///////////////////
+    ///Form checking///
+
+    /**
+     * Checks form inputs for errors
+     * @param {number} input Input value of input element
+     * @param {Element} errorElem Span element used for showing error
+     */
     let checkInput = function (input, errorElem) {
         if (input.value.length === 0) {
             errorElem.innerText = 'Please input a value';
@@ -235,7 +282,10 @@
     window.addEventListener('load', function () {
         let form = document.querySelector('form');
         let minefield = document.getElementById('minefield');
-
+        
+        /**
+         * Activates when user submits form, validates input, setup playingfield
+         */
         form.addEventListener('submit', function (e) {
             e.preventDefault();
             e.stopPropagation();
@@ -266,16 +316,23 @@
             createField(parseInt(inpRows.value), parseInt(inpColumns.value));
         });
 
+        /** 
+         * Activates if the tbody has been clicked, Acts accordingly if a td element was clicked
+        */
         minefield.addEventListener('click', function (e) {
             if (e.path[0].tagName === 'TD') {
                 cellClicked(e.path[1].rowIndex, e.path[0].cellIndex);
             }
         });
 
+        /**
+         * Activates when user tries to open contextmenu (rightclick) in minefield
+         * Stops context menu from actually showing up
+         */
         minefield.addEventListener('contextmenu', function (e) {
             if (e.path[0].tagName === 'TD') {
-                e.path[0].classList.add('flag');
                 e.returnValue = false;
+                e.path[0].classList.add('flag');                
             }
         });
     });
