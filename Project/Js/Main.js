@@ -91,34 +91,41 @@
         contourCellCollection.push(startCell);
 
         do {
-            let currentCell = contourCellCollection[currentCellIndex];
+            let currentCell = contourCellCollection[currentCellIndex++];
+
+            if (currentCell.getSurroundingBombs > 0) {
+                continue;
+            }
 
             for (let i = currentCell.yPos - 1; i <= currentCell.yPos + 1; i++) {
                 if (i > yPosMaximum || i < 0) {
                     continue;
                 }
 
-                for (let j = currentCell.xPos - 1; j <= currentCell.xPos + 1; j++) {
-                    if ((j > XposMaxium || j < 0)) {
-                        continue;
-                    }
+                let cellData = minefieldData[i][currentCell.xPos];
 
-                    let cellData = minefieldData[i][j];
-
-                    if (cellData.getBomb || contourCellCollection.includes(cellData)) {
-                        continue;
-                    }
-
-                    if (cellData.getCorrespondingTd.classList.contains('clickedCell')) {
-                        continue;
-                    }
-
-                    contourCellCollection.push(cellData);
+                if (cellData.getBomb || contourCellCollection.includes(cellData) || cellData.getCorrespondingTd.classList.contains('clickedCell')) {
+                    continue;
                 }
+
+                contourCellCollection.push(cellData);
             }
 
-            currentCellIndex++;
-        } while (currentCellIndex < contourCellCollection.length);
+            for (let j = currentCell.xPos - 1; j <= currentCell.xPos + 1; j++) {
+                if ((j > XposMaxium || j < 0)) {
+                    continue;
+                }
+
+                let cellData = minefieldData[currentCell.yPos][j];
+
+                if (cellData.getBomb || contourCellCollection.includes(cellData) || cellData.getCorrespondingTd.classList.contains('clickedCell')) {
+                    continue;
+                }
+
+                contourCellCollection.push(cellData);
+            }
+        }
+        while (currentCellIndex < contourCellCollection.length);
 
         updateCells(contourCellCollection);
     };
@@ -131,14 +138,24 @@
     let cellClicked = function (yPos, xPos) {
         let cellData = minefieldData[yPos][xPos];
 
+        //If the clicked cell has already been clicked before, don't do anything
+        if (cellData.getCorrespondingTd.classList.contains('clickedCell')) {
+            return;
+        }
+
         if (cellData.getBomb) {
+
+            //If a cell with a bomb was clicked, then add the corresponding CSS class
             cellData.correspondingTdElement.classList.add('clickedBomb');
 
+            //UpdateCells can only receive a one dimensional array, therefor we need to iterate row per row
+            //Because minefieldData is 2 dimensional
             for (let row of minefieldData) {
                 updateCells(row);
             }
+        } else {
 
-        } else if (!cellData.getCorrespondingTd.classList.contains('clickedCell')) {
+            //If a cell with/without surrounding bombs is clicked, let showContourCells determine which cells to show
             showContourCells(cellData);
         }
     };
@@ -184,11 +201,9 @@
         let bombsPlaced = 0;
         let totalBombAmount = 0;
 
-        //16-17% of all cells are bombs in the original minesweeper. The same ratio is going to be kept for this version
+        //16-17% of all cells are bombs in the original minesweeper.
         totalBombAmount = Math.ceil(cellAmount * 0.17);
 
-        console.log(totalBombAmount);
-        
         //Set the bombs to active
         while (bombsPlaced < totalBombAmount) {
             let yPos = Math.floor(Math.random() * rows);
@@ -212,9 +227,7 @@
      */
     let resetField = function () {
         //Clear the array
-        if (minefieldData !== undefined) {
-            minefieldData.length = 0;
-        }
+        minefieldData.length = 0;
 
         //Reset the actual playingfield
         let tbody = document.getElementById('minefield');
