@@ -64,6 +64,7 @@
         for (let cellData of cellDataCollection) {
             let cell = cellData.getCorrespondingTd;
 
+            //Don't overwrite the exploded bomb with a regular bomb
             if (cell.classList.contains('clickedBomb')) {
                 continue;
             }
@@ -79,7 +80,8 @@
     };
 
     /**
-     * Function that receives the clicked cell and finds surrounding non-bomb cells.
+     * Function that receives the cellData of the cell clicked by the user
+     * Based on a rule set it finds an array of cell(s) that should be updated in the UI
      * @param {cell} startCell 
      */
     let showContourCells = function (startCell) {
@@ -88,22 +90,27 @@
         let XposMaxium = minefieldData[0].length - 1;
         let yPosMaximum = minefieldData.length - 1;
 
+        //Add the initial cell to the array & begin the loop
         contourCellCollection.push(startCell);
 
         do {
             let currentCell = contourCellCollection[currentCellIndex++];
 
+            //If the current cell has bombs around it, then don't check this cell
             if (currentCell.getSurroundingBombs > 0) {
                 continue;
             }
 
+            //Check all connecting cells in the same column
             for (let i = currentCell.yPos - 1; i <= currentCell.yPos + 1; i++) {
                 if (i > yPosMaximum || i < 0) {
                     continue;
                 }
 
+                //Cache the cell that's being checked
                 let cellData = minefieldData[i][currentCell.xPos];
 
+                //If the cell has a bomb, is already in the array or has already been clicked before don't continue with the next cell
                 if (cellData.getBomb || contourCellCollection.includes(cellData) || cellData.getCorrespondingTd.classList.contains('clickedCell')) {
                     continue;
                 }
@@ -111,13 +118,16 @@
                 contourCellCollection.push(cellData);
             }
 
+            //Check all connecting cells in the same row
             for (let j = currentCell.xPos - 1; j <= currentCell.xPos + 1; j++) {
                 if ((j > XposMaxium || j < 0)) {
                     continue;
                 }
 
+                //Cache the cell that's being checked
                 let cellData = minefieldData[currentCell.yPos][j];
 
+                //If the cell has a bomb, is already in the array or has already been clicked before don't continue with the next cell
                 if (cellData.getBomb || contourCellCollection.includes(cellData) || cellData.getCorrespondingTd.classList.contains('clickedCell')) {
                     continue;
                 }
@@ -149,7 +159,7 @@
             cellData.correspondingTdElement.classList.add('clickedBomb');
 
             //UpdateCells can only receive a one dimensional array, therefor we need to iterate row per row
-            //Because minefieldData is 2 dimensional
+            //Because minefieldData is a jagged array
             for (let row of minefieldData) {
                 updateCells(row);
             }
@@ -170,9 +180,12 @@
      * @param {number} bombXpos Column position of the bomb
      */
     let addBombAmount = function (bombYPos, bombXpos) {
+
+        //Determine the outerbounds of the field
         let XposMaxium = minefieldData[0].length - 1;
         let yPosMaximum = minefieldData.length - 1;
 
+        //Increment the bombamount of all surrounding cells withing the outerbounds of the field
         for (let yPos = bombYPos - 1; yPos <= bombYPos + 1; yPos++) {
             if (yPos > yPosMaximum || yPos < 0) {
                 continue;
@@ -201,15 +214,18 @@
         let bombsPlaced = 0;
         let totalBombAmount = 0;
 
-        //16-17% of all cells are bombs in the original minesweeper.
+        //Like the original minesweeper +-17% of all cells are bombs
         totalBombAmount = Math.ceil(cellAmount * 0.17);
 
         //Set the bombs to active
         while (bombsPlaced < totalBombAmount) {
+
+            //Determine a random cell to activate
             let yPos = Math.floor(Math.random() * rows);
             let xPos = Math.floor(Math.random() * columns);
             let cellData = minefieldData[yPos][xPos];
 
+            //If the cell already has an active, find another
             if (cellData.getBomb === true) {
                 continue;
             }
