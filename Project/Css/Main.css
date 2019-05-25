@@ -1,8 +1,12 @@
 /*GENERAL*/
-body,
-html {
-    margin: 1%;
+body {
+    margin: 0%;
     padding: 0;
+}
+
+body{
+    margin: 1%;
+    background-image: linear-gradient(to right, #42505F, #CA92AD)
 }
 
 .hidden {

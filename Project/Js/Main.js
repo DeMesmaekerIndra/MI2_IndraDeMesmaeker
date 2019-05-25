@@ -227,7 +227,7 @@
     };
 
     /**
-     * Function rresponsible for creating td elements & cell objects
+     * Function responsible for creating td elements & cell objects
      * Pushes the cell objects into a multidimensional array minefieldData
      * @param {number} rows Amount of rows
      * @param {number} columns Amount of columns
