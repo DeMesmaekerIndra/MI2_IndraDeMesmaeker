@@ -1,6 +1,6 @@
 (function () {
     'use strict';
-    let minefieldData;
+    let minefieldData = [];
 
     //////////////
     ///CLASSES///
@@ -79,7 +79,7 @@
     };
 
     /**
-     * Function that receives a clicked cell and finds surrounding non-bomb cells.
+     * Function that receives the clicked cell and finds surrounding non-bomb cells.
      * @param {cell} startCell 
      */
     let showContourCells = function (startCell) {
@@ -175,20 +175,20 @@
     };
 
     /**
-     *  Function responsible for activating a random amount of bombs
-     *  in the minefieldData arra
+     *  Function responsible for activating the bombs in the minefieldData array
      * @param {number} rows Amount of eows 
      * @param {number} columns Amount of columns
      */
     let populateWithBombs = function (rows, columns) {
         let cellAmount = rows * columns;
         let bombsPlaced = 0;
+        let totalBombAmount = 0;
 
-        //Determine outerbounds
-        let max = Math.ceil(cellAmount * 0.65);
-        let min = Math.ceil(cellAmount * 0.4);
-        let totalBombAmount = Math.floor(Math.random() * (max - min)) + min;
+        //16-17% of all cells are bombs in the original minesweeper. The same ratio is going to be kept for this version
+        totalBombAmount = Math.ceil(cellAmount * 0.17);
 
+        console.log(totalBombAmount);
+        
         //Set the bombs to active
         while (bombsPlaced < totalBombAmount) {
             let yPos = Math.floor(Math.random() * rows);
@@ -315,7 +315,6 @@
                 return;
             }
 
-            minefieldData = [];
             createField(parseInt(inpRows.value), parseInt(inpColumns.value));
         });
 
