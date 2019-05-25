@@ -101,39 +101,30 @@
                 continue;
             }
 
-            //Check all connecting cells in the same column
+            //Check 8 surrounding cells
             for (let i = currentCell.yPos - 1; i <= currentCell.yPos + 1; i++) {
+
                 if (i > yPosMaximum || i < 0) {
                     continue;
                 }
 
-                //Cache the cell that's being checked
-                let cellData = minefieldData[i][currentCell.xPos];
-
-                //If the cell has a bomb, is already in the array or has already been clicked before don't continue with the next cell
-                if (cellData.getBomb || contourCellCollection.includes(cellData) || cellData.getCorrespondingTd.classList.contains('clickedCell')) {
-                    continue;
+                for (let j = currentCell.xPos - 1; j <= currentCell.xPos + 1; j++) {
+                    
+                    if ((j > XposMaxium || j < 0)) {
+                        continue;
+                    } 
+    
+                    //Cache the cell that's being checked
+                    let cellData = minefieldData[i][j];
+    
+                    //If the cell has a bomb, is already in the array or has already been clicked before don't continue with the next cell
+                    if (cellData.getBomb || contourCellCollection.includes(cellData) || cellData.getCorrespondingTd.classList.contains('clickedCell')) {
+                        continue;
+                    }
+    
+                    contourCellCollection.push(cellData);
                 }
-
-                contourCellCollection.push(cellData);
-            }
-
-            //Check all connecting cells in the same row
-            for (let j = currentCell.xPos - 1; j <= currentCell.xPos + 1; j++) {
-                if ((j > XposMaxium || j < 0)) {
-                    continue;
-                }
-
-                //Cache the cell that's being checked
-                let cellData = minefieldData[currentCell.yPos][j];
-
-                //If the cell has a bomb, is already in the array or has already been clicked before don't continue with the next cell
-                if (cellData.getBomb || contourCellCollection.includes(cellData) || cellData.getCorrespondingTd.classList.contains('clickedCell')) {
-                    continue;
-                }
-
-                contourCellCollection.push(cellData);
-            }
+            }            
         }
         while (currentCellIndex < contourCellCollection.length);
 
