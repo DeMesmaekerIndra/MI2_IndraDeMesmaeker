@@ -84,7 +84,7 @@
      * Based on a rule set it finds an array of cell(s) that should be updated in the UI
      * @param {cell} startCell 
      */
-    let showContourCells = function (startCell) {
+    let findContourCells = function (startCell) {
         let contourCellCollection = [];
         let currentCellIndex = 0;
         let XposMaxium = minefieldData[0].length - 1;
@@ -103,22 +103,26 @@
 
             //Check 8 surrounding cells
             for (let i = currentCell.yPos - 1; i <= currentCell.yPos + 1; i++) {
-
                 if (i > yPosMaximum || i < 0) {
                     continue;
                 }
 
                 for (let j = currentCell.xPos - 1; j <= currentCell.xPos + 1; j++) {
-                    
                     if ((j > XposMaxium || j < 0)) {
                         continue;
                     } 
     
                     //Cache the cell that's being checked
                     let cellData = minefieldData[i][j];
+                    let cell = minefieldData.getCorrespondingTd;
     
-                    //If the cell has a bomb, is already in the array or has already been clicked before don't continue with the next cell
-                    if (cellData.getBomb || contourCellCollection.includes(cellData) || cellData.getCorrespondingTd.classList.contains('clickedCell')) {
+                    //If the cell has a bomb, is already in the array, then continue with the next cell
+                    if (cellData.getBomb || contourCellCollection.includes(cellData)) {
+                        continue;
+                    }
+
+                    //If the cell has been clicked before, has been flagged by the user, then continue with the next cell
+                    if (cell.classList.contains('clickedCell') || cell.classList.contains('flag')) {
                         continue;
                     }
     
@@ -138,9 +142,11 @@
      */
     let cellClicked = function (yPos, xPos) {
         let cellData = minefieldData[yPos][xPos];
+        let cell = cellData.getCorrespondingTd;
 
-        //If the clicked cell has already been clicked before, don't do anything
-        if (cellData.getCorrespondingTd.classList.contains('clickedCell')) {
+        //If the clicked cell has already been clicked before, cell contains a flag don't do anything
+        //NOTE: Flag need too be removed before the cell can be activated
+        if (cell.classList.contains('clickedCell') || cell.classList.contains('flag')) {
             return;
         }
 
@@ -157,7 +163,7 @@
         } else {
 
             //If a cell with/without surrounding bombs is clicked, let showContourCells determine which cells to show
-            showContourCells(cellData);
+            findContourCells(cellData);
         }
     };
 
