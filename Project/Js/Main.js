@@ -137,44 +137,9 @@
         updateCells(contourCellCollection);
     };
 
-    /**
-     * function responsible that contains the logic of what should happen if a cell is clicked
-     * @param {number} yPos row position of the clicked cell
-     * @param {number} xPos column position of the clicked cell
-     */
-    let cellClicked = function (yPos, xPos) {
-        let cellData = minefieldData[yPos][xPos];
-        let cell = cellData.getCorrespondingTd;
-
-        //If the clicked cell has already been clicked before, cell contains a flag don't do anything
-        //NOTE: Flag need too be removed before the cell can be activated
-        if (cell.classList.contains('clickedCell') || cell.classList.contains('flag')) {
-            return;
-        }
-
-        if (cellData.getBomb) {
-
-            //If a cell with a bomb was clicked, then add the corresponding CSS class
-            cell.classList.add('clickedBomb');
-
-            //Remove the questionMark class if the cell had been marked as one
-            cell.classList.remove('questionMark');
-
-            //UpdateCells can only receive a one dimensional array, therefor we need to iterate row per row
-            //Because minefieldData is a jagged array
-            for (let row of minefieldData) {
-                updateCells(row);
-            }
-        } else {
-
-            //If a cell with/without surrounding bombs is clicked, let findContourCells determine which cells to show
-            findContourCells(cellData);
-        }
-    };
-
     let incrementTimer = function () {
-        internalTime.setSeconds(internalTime.getSeconds() + 1);       
-        
+        internalTime.setSeconds(internalTime.getSeconds() + 1);
+
         document.getElementById('timer').innerText = internalTime.toLocaleTimeString();
     };
 
@@ -353,8 +318,8 @@
             }
 
             createField(parseInt(inpRows.value), parseInt(inpColumns.value));
-            
-            internalTime = new Date(0,0,0,0,0,0,0); //Initialise the internaltime (the date isn't used, the time is)
+
+            internalTime = new Date(0, 0, 0, 0, 0, 0, 0); //Initialise the internaltime (the date isn't used, the time is)
             interval = setInterval(incrementTimer, 1000);
         });
 
@@ -362,8 +327,38 @@
          * Activates if the tbody has been clicked, Acts accordingly if a td element was clicked
          */
         minefield.addEventListener('click', function (e) {
-            if (e.path[0].tagName === 'TD') {
-                cellClicked(e.path[1].rowIndex, e.path[0].cellIndex);
+            if (e.path[0].tagName !== 'TD') {
+                return;
+            }
+
+            let cellData = minefieldData[e.path[1].rowIndex][e.path[0].cellIndex];
+            let cell = cellData.getCorrespondingTd;
+
+            //If the clicked cell has already been clicked before, cell contains a flag don't do anything
+            //NOTE: Flag need too be removed before the cell can be activated
+            if (cell.classList.contains('clickedCell') || cell.classList.contains('flag')) {
+                return;
+            }
+
+            if (cellData.getBomb) {
+                
+                clearInterval(interval);
+
+                //If a cell with a bomb was clicked, then add the corresponding CSS class
+                cell.classList.add('clickedBomb');
+
+                //Remove the questionMark class if the cell had been marked as one
+                cell.classList.remove('questionMark');
+
+                //UpdateCells can only receive a one dimensional array, therefor we need to iterate row per row
+                //Because minefieldData is a jagged array
+                for (let row of minefieldData) {
+                    updateCells(row);
+                }
+            } else {
+
+                //If a cell with/without surrounding bombs is clicked, let findContourCells determine which cells to show
+                findContourCells(cellData);
             }
         });
 
