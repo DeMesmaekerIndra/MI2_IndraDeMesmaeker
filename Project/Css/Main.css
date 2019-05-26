@@ -96,6 +96,10 @@ td>span {
     background-image: url("Img/single-files/minesweeper_02.png")
 }
 
+.questionMark{
+    background-image: url("Img/single-files/minesweeper_03.png")
+}
+
 .clickedCell {
     background-image: url("Img/single-files/minesweeper_01.png");
 }

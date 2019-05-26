@@ -110,12 +110,12 @@
                 for (let j = currentCell.xPos - 1; j <= currentCell.xPos + 1; j++) {
                     if ((j > XposMaxium || j < 0)) {
                         continue;
-                    } 
-    
+                    }
+
                     //Cache the cell that's being checked
                     let cellData = minefieldData[i][j];
                     let cell = minefieldData.getCorrespondingTd;
-    
+
                     //If the cell has a bomb, is already in the array, then continue with the next cell
                     if (cellData.getBomb || contourCellCollection.includes(cellData)) {
                         continue;
@@ -125,10 +125,10 @@
                     if (cell.classList.contains('clickedCell') || cell.classList.contains('flag')) {
                         continue;
                     }
-    
+
                     contourCellCollection.push(cellData);
                 }
-            }            
+            }
         }
         while (currentCellIndex < contourCellCollection.length);
 
@@ -162,7 +162,7 @@
             }
         } else {
 
-            //If a cell with/without surrounding bombs is clicked, let showContourCells determine which cells to show
+            //If a cell with/without surrounding bombs is clicked, let findContourCells determine which cells to show
             findContourCells(cellData);
         }
     };
@@ -355,12 +355,24 @@
 
         /**
          * Activates when user tries to open contextmenu (rightclick) in minefield
-         * Stops context menu from actually showing up
+         * Places/removes flags & questionMarks
          */
         minefield.addEventListener('contextmenu', function (e) {
-            if (e.path[0].tagName === 'TD') {
-                e.returnValue = false;
-                e.path[0].classList.add('flag');
+            e.returnValue = false; //block context menu
+
+            let clickedElement = e.path[0];
+
+            if (clickedElement.tagName !== 'TD') {
+                return;
+            }
+
+            if (clickedElement.classList.contains('questionMark')) {
+                clickedElement.classList.remove('questionMark');
+            } else if (!clickedElement.classList.contains('flag')) {
+                clickedElement.classList.add('flag');
+            } else if (!clickedElement.classList.contains('questionMark')) {
+                clickedElement.classList.remove('flag');
+                clickedElement.classList.add('questionMark');
             }
         });
     });
