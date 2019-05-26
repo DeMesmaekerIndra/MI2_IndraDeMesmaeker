@@ -73,7 +73,7 @@ tbody>tr {
 }
 
 tbody>tr>td {
-    background: url("Img/single-files/minesweeper_00.png");
+    background: url("Img/minesweeper_00.png");
     background-size: 100% 100%;
     width: 50px;
 }
@@ -85,55 +85,55 @@ td>span {
 
 /*Table: CELL STATES*/
 .clickedBomb {
-    background-image: url("Img/single-files/minesweeper_06.png");
+    background-image: url("Img/minesweeper_06.png");
 }
 
 .bomb {
-    background-image: url("Img/single-files/minesweeper_05.png")
+    background-image: url("Img/minesweeper_05.png")
 }
 
 .flag {
-    background-image: url("Img/single-files/minesweeper_02.png")
+    background-image: url("Img/minesweeper_02.png")
 }
 
 .questionMark{
-    background-image: url("Img/single-files/minesweeper_03.png")
+    background-image: url("Img/minesweeper_03.png")
 }
 
 .clickedCell {
-    background-image: url("Img/single-files/minesweeper_01.png");
+    background-image: url("Img/minesweeper_01.png");
 }
 
 .surroundingBomb__1 {
-    background-image: url("Img/single-files/minesweeper_08.png");
+    background-image: url("Img/minesweeper_08.png");
 }
 
 .surroundingBomb__2 {
-    background-image: url("Img/single-files/minesweeper_09.png");
+    background-image: url("Img/minesweeper_09.png");
 }
 
 .surroundingBomb__3 {
-    background-image: url("Img/single-files/minesweeper_10.png");
+    background-image: url("Img/minesweeper_10.png");
 }
 
 .surroundingBomb__4 {
-    background-image: url("Img/single-files/minesweeper_11.png");
+    background-image: url("Img/minesweeper_11.png");
 }
 
 .surroundingBomb__5 {
-    background-image: url("Img/single-files/minesweeper_12.png");
+    background-image: url("Img/minesweeper_12.png");
 }
 
 .surroundingBomb__6 {
-    background-image: url("Img/single-files/minesweeper_13.png");
+    background-image: url("Img/minesweeper_13.png");
 }
 
 .surroundingBomb__7 {
-    background-image: url("Img/single-files/minesweeper_14.png");
+    background-image: url("Img/minesweeper_14.png");
 }
 
 .surroundingBomb__8 {
-    background-image: url("Img/single-files/minesweeper_15.png");
+    background-image: url("Img/minesweeper_15.png");
 }
 
 @media only screen and (max-width: 720px) {

@@ -153,7 +153,10 @@
         if (cellData.getBomb) {
 
             //If a cell with a bomb was clicked, then add the corresponding CSS class
-            cellData.correspondingTdElement.classList.add('clickedBomb');
+            cell.classList.add('clickedBomb');
+
+            //Remove the questionMark class if the cell had been marked as one
+            cell.classList.remove('questionMark');
 
             //UpdateCells can only receive a one dimensional array, therefor we need to iterate row per row
             //Because minefieldData is a jagged array
@@ -370,7 +373,7 @@
                 clickedElement.classList.remove('questionMark');
             } else if (!clickedElement.classList.contains('flag')) {
                 clickedElement.classList.add('flag');
-            } else if (!clickedElement.classList.contains('questionMark')) {
+            } else {
                 clickedElement.classList.remove('flag');
                 clickedElement.classList.add('questionMark');
             }
