@@ -1,6 +1,8 @@
 (function () {
     'use strict';
     let minefieldData = [];
+    let interval = null;
+    let internalTime = null;
 
     //////////////
     ///CLASSES///
@@ -114,7 +116,7 @@
 
                     //Cache the cell that's being checked
                     let cellData = minefieldData[i][j];
-                    let cell = minefieldData.getCorrespondingTd;
+                    let cell = cellData.getCorrespondingTd;
 
                     //If the cell has a bomb, is already in the array, then continue with the next cell
                     if (cellData.getBomb || contourCellCollection.includes(cellData)) {
@@ -168,6 +170,12 @@
             //If a cell with/without surrounding bombs is clicked, let findContourCells determine which cells to show
             findContourCells(cellData);
         }
+    };
+
+    let incrementTimer = function () {
+        internalTime.setSeconds(internalTime.getSeconds() + 1);       
+        
+        document.getElementById('timer').innerText = internalTime.toLocaleTimeString();
     };
 
     ///////////////////////////////////////
@@ -345,6 +353,9 @@
             }
 
             createField(parseInt(inpRows.value), parseInt(inpColumns.value));
+            
+            internalTime = new Date(0,0,0,0,0,0,0); //Initialise the internaltime (the date isn't used, the time is)
+            interval = setInterval(incrementTimer, 1000);
         });
 
         /** 

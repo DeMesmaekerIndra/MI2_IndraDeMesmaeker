@@ -23,12 +23,13 @@ body {
 form {
     display: flex;
     flex-flow: column nowrap;
+    align-items: stretch;
+
+    margin-left: 1%;
 
     width: calc(100% - 2%);
     min-width: 300px;
     min-height: 150px;
-
-    align-items: stretch;
 }
 
 .inputContainer {
@@ -55,6 +56,30 @@ label>input[type="number"] {
 
 #btnDone {
     align-self: center;
+}
+
+/*INFORMATION BAR*/
+.informationContainer{
+    display: flex;    
+    flex-flow: row nowrap;
+
+    justify-content: space-between;
+
+    margin-left: 1%;
+
+    width: calc(100% - 2%);
+    min-width: 300px;  
+}
+
+.informationContainer>p{
+    text-align: center;
+    width: 100px;
+    font-size: 1.3em;
+}
+
+.informationContainer>p>span{
+    color: #ececec;
+    font-size: 1.5em;
 }
 
 /*TABLE: MINEFIELD*/
