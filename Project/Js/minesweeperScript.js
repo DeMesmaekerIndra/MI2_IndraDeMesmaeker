@@ -66,7 +66,7 @@
             if (data[1] >= highScoreData[1]) {
                 localStorage.setItem(highscoreSize, JSON.stringify(highScoreData));
             }
-            
+
         } else {
             localStorage.setItem(highscoreSize, JSON.stringify(highScoreData));
         }

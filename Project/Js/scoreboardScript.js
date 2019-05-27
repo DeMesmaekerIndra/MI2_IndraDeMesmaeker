@@ -8,18 +8,17 @@
     };
 
     window.addEventListener('load', function () {
-        showData(document.querySelectorAll('#smallHighscore>td'), JSON.parse(localStorage.getItem('smallHighscore')));
-        showData(document.querySelectorAll('#mediumHighscore>td'), JSON.parse(localStorage.getItem('mediumHighscore')));
-        showData(document.querySelectorAll('#largeHighscore>td'), JSON.parse(localStorage.getItem('highHighscore')));
+        let array = ['small', 'medium', 'high'];
+
+        for (let type of array) {
+            let highscoreData = JSON.parse(localStorage.getItem(type + 'Highscore'));
+            if (highscoreData !== null) {
+                showData(document.querySelectorAll('#' + type + 'Highscore>td'), highscoreData);
+            }
+        }
 
         let currentData = JSON.parse(localStorage.getItem('currentScore'));
 
-        if (currentData[3] === 'small') {
-            showData(document.querySelectorAll('#smallCurrentScore>td'), currentData);
-        } else if (currentData[3] === 'medium') {
-            showData(document.querySelectorAll('#mediumCurrentScore>td'), currentData);
-        } else {
-            showData(document.querySelectorAll('#largeCurrentScore>td'), currentData);
-        }
+        showData(document.querySelectorAll('#'+ currentData[3] +'CurrentScore>td'), currentData);
     });
 })();
