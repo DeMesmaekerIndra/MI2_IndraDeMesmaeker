@@ -1,7 +1,7 @@
 (function () {
     'use strict';
     let minefieldData = [];
-    let interval = null;
+    let timer = null;
     let internalTime = null;
 
     //////////////
@@ -137,6 +137,9 @@
         updateCells(contourCellCollection);
     };
 
+    /**
+     * Increments the seconds on the internal time and displays the time
+     */
     let incrementTimer = function () {
         internalTime.setSeconds(internalTime.getSeconds() + 1);
 
@@ -185,7 +188,7 @@
     let populateWithBombs = function (rows, columns) {
         let cellAmount = rows * columns;
         let bombsPlaced = 0;
-        let totalBombAmount = 0;        
+        let totalBombAmount = 0;
 
         //Like the original minesweeper +-17% of all cells are bombs
         totalBombAmount = Math.ceil(cellAmount * 0.17);
@@ -308,7 +311,7 @@
 
             //if a previous timer is still active, clear it
             //NOTE: clearInterval doesn't generate errors when it receives nulls
-            clearInterval(interval); 
+            clearInterval(timer);
 
             let inpName = document.getElementById('inpName');
             let inpRows = document.getElementById('inpRowSize');
@@ -335,10 +338,10 @@
             createField(parseInt(inpRows.value), parseInt(inpColumns.value));
 
             internalTime = new Date(0, 0, 0, 0, 0, 0, 0); //Initialise the internaltime (the date isn't used, the time is)
-            interval = setInterval(incrementTimer, 1000);
+            timer = setInterval(incrementTimer, 1000);
 
-            form.classList.add('offScreen'); 
-            document.getElementById('btnDone').value = 'Open menu!';       
+            form.classList.add('offScreen');
+            document.getElementById('btnDone').value = 'Open menu!';
         });
 
         /** 
@@ -359,8 +362,8 @@
             }
 
             if (cellData.getBomb) {
-                
-                clearInterval(interval);
+
+                clearInterval(timer);
 
                 //If a cell with a bomb was clicked, then add the corresponding CSS class
                 cell.classList.add('clickedBomb');
@@ -390,6 +393,11 @@
             let clickedElement = e.path[0];
 
             if (clickedElement.tagName !== 'TD') {
+                return;
+            }
+
+            //Not allowed to place a flag on already activated cells, shown bombs or the exploded bomb
+            if (clickedElement.classList.contains('clickedCell') || clickedElement.classList.contains('bomb') || clickedElement.classList.contains('clickedBomb')) {
                 return;
             }
 
