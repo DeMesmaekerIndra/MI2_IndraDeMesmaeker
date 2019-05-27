@@ -59,16 +59,15 @@
     ///////////////////////////
     ///Winning & highscores///
 
-    let storeData = function (highScoreData, highscoreSize) {
-        let data = JSON.parse(localStorage.getItem(highscoreSize));
-
-        if (data != undefined || data != null) {
-            if (data[1] >= highScoreData[1]) {
-                localStorage.setItem(highscoreSize, JSON.stringify(highScoreData));
+    let storeData = function (newHighScore, highscoreType) {
+        let oldHighScore = JSON.parse(localStorage.getItem(highscoreType));
+        
+        if (oldHighScore !== null) {
+            if (oldHighScore[1] >= newHighScore[1]) {
+                localStorage.setItem(highscoreType, JSON.stringify(newHighScore));
             }
-
         } else {
-            localStorage.setItem(highscoreSize, JSON.stringify(highScoreData));
+            localStorage.setItem(highscoreType, JSON.stringify(newHighScore));
         }
     };
 
@@ -99,11 +98,11 @@
             highScoreData.push('large');
         }
 
-        localStorage.setItem('currentScore', JSON.stringify(highScoreData));
+        sessionStorage.setItem('currentScore', JSON.stringify(highScoreData));
 
         setTimeout(function () {
             window.open('scoreboard.html', '_blank');
-        }, 2000);
+        }, 1500);
     };
 
     //////////////////////////
@@ -188,10 +187,10 @@
 
         //Check the winning conditions
         //Once all safe cells are shown, and all flags have been placed. The user wins
-        remainingSafeCells -= contourCellCollection.length;
-        checkForWin();
+        remainingSafeCells -= contourCellCollection.length;       
 
         updateCells(contourCellCollection);
+        checkForWin();
     };
 
     /**
@@ -199,7 +198,6 @@
      */
     let incrementTimer = function () {
         internalTime.setSeconds(internalTime.getSeconds() + 1);
-
         document.getElementById('timerInfo').innerText = internalTime.toLocaleTimeString();
     };
 
@@ -288,8 +286,6 @@
         while (tbody.childNodes.length > 0) {
             tbody.childNodes[0].remove();
         }
-
-        document.querySelector('table').classList.add('hidden', 'collapsed');
     };
 
     /**
@@ -359,7 +355,7 @@
          */
         form.addEventListener('submit', function (e) {
             e.preventDefault();
-            e.stopPropagation();
+            e.stopPropagation();            
 
             if (form.classList.contains('offScreen')) {
                 form.classList.remove('offScreen');
@@ -396,7 +392,7 @@
 
             createField(parseInt(inpRows.value), parseInt(inpColumns.value));
 
-            //Initialise the internalTime
+            //Initialise the internalTime, remove the current
             //NOTE: The date isn't being used, only the time
             internalTime = new Date(0, 0, 0, 0, 0, 0, 0);
             timer = setInterval(incrementTimer, 1000);
@@ -422,14 +418,12 @@
                 return;
             }
 
+            //If user clicks on bomb, then add/remove css of cell
+            //Or find which cells should be shown
             if (cellData.getBomb) {
-
                 clearInterval(timer);
 
-                //If a cell with a bomb was clicked, then add the corresponding CSS class
                 cell.classList.add('clickedBomb');
-
-                //Remove the questionMark class if the cell had been marked as one
                 cell.classList.remove('questionMark');
 
                 //UpdateCells can only receive a one dimensional array, therefor we need to iterate row per row
@@ -437,9 +431,11 @@
                 for (let row of minefieldData) {
                     updateCells(row);
                 }
-            } else {
 
-                //If a cell with/without surrounding bombs is clicked, let findContourCells determine which cells to show
+                setTimeout(function () {
+                    window.open('scoreboard.html', '_blank');
+                }, 1500);
+            } else {
                 findContourCells(cellData);
             }
         });
@@ -449,7 +445,7 @@
          * Places/removes flags & questionMarks
          */
         minefield.addEventListener('contextmenu', function (e) {
-            //block context menu
+            //block context menu & check if a td was clicked
             e.returnValue = false;
 
             let clickedElement = e.path[0];
@@ -477,12 +473,12 @@
 
                 flagsPlaced++;
                 checkForWin();
-
             } else {
                 clickedElement.classList.remove('flag');
                 clickedElement.classList.add('questionMark');
-                flagsPlaced--;
                 flagsInfo.innerText = parseInt(flagsInfo.innerText) + 1;
+
+                flagsPlaced--;
             }
         });
     });

@@ -17,7 +17,7 @@
             }
         }
 
-        let currentData = JSON.parse(localStorage.getItem('currentScore'));
+        let currentData = JSON.parse(sessionStorage.getItem('currentScore'));
 
         showData(document.querySelectorAll('#'+ currentData[3] +'CurrentScore>td'), currentData);
     });
