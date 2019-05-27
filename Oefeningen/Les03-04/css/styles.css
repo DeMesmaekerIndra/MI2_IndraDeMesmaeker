@@ -95,7 +95,6 @@ body {
 }
 
 .loginmodal__shown {
-
     transform: translateY(0);
 }
 

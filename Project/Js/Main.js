@@ -140,7 +140,7 @@
     let incrementTimer = function () {
         internalTime.setSeconds(internalTime.getSeconds() + 1);
 
-        document.getElementById('timer').innerText = internalTime.toLocaleTimeString();
+        document.getElementById('timerInfo').innerText = internalTime.toLocaleTimeString();
     };
 
     ///////////////////////////////////////
@@ -185,10 +185,13 @@
     let populateWithBombs = function (rows, columns) {
         let cellAmount = rows * columns;
         let bombsPlaced = 0;
-        let totalBombAmount = 0;
+        let totalBombAmount = 0;        
 
         //Like the original minesweeper +-17% of all cells are bombs
         totalBombAmount = Math.ceil(cellAmount * 0.17);
+
+        document.getElementById('bombsInfo').innerText = totalBombAmount;
+        document.getElementById('flagsInfo').innerText = totalBombAmount;
 
         //Set the bombs to active
         while (bombsPlaced < totalBombAmount) {
@@ -295,6 +298,10 @@
             e.preventDefault();
             e.stopPropagation();
 
+            //if a previous timer is still active, clear it
+            //NOTE: clearInterval doesn't generate errors when it receives nulls
+            clearInterval(interval); 
+
             let inpName = document.getElementById('inpName');
             let inpRows = document.getElementById('inpRowSize');
             let inpColumns = document.getElementById('inpColumnSize');
@@ -321,6 +328,12 @@
 
             internalTime = new Date(0, 0, 0, 0, 0, 0, 0); //Initialise the internaltime (the date isn't used, the time is)
             interval = setInterval(incrementTimer, 1000);
+
+            //document.querySelector('form').classList.add('collapsed');
+            let formElements = document.querySelectorAll('form');
+            for (let element of formElements) {
+                element.classList.add('offScreen');
+            }
         });
 
         /** 
@@ -375,13 +388,24 @@
                 return;
             }
 
+            let flagsInfo = document.getElementById('flagsInfo');
+
             if (clickedElement.classList.contains('questionMark')) {
                 clickedElement.classList.remove('questionMark');
             } else if (!clickedElement.classList.contains('flag')) {
                 clickedElement.classList.add('flag');
+                flagsInfo.innerText = parseInt(flagsInfo.innerText) - 1;
             } else {
                 clickedElement.classList.remove('flag');
                 clickedElement.classList.add('questionMark');
+                flagsInfo.innerText = parseInt(flagsInfo.innerText) + 1;
+            }
+        });
+
+        document.getElementById('btnDone').addEventListener('mouseover', function(){
+            let formElements = document.querySelectorAll('form');
+            for (let element of formElements) {
+                element.classList.remove('offScreen');
             }
         });
     });

@@ -1,5 +1,9 @@
 /*GENERAL*/
 body {
+    display: flex;
+    
+    flex-flow: column;
+    justify-content: space-between;
     margin: 0%;
     padding: 0;
 }
@@ -17,6 +21,14 @@ body {
     height: 0;
     margin: 0;
     padding: 0;
+    overflow: hidden;
+    min-height: 0;
+    height: 0;  
+}
+
+.offScreen{ 
+    transform: translate(-1%,-90%);
+    position: absolute;
 }
 
 /*FORM*/
@@ -30,6 +42,7 @@ form {
     width: calc(100% - 2%);
     min-width: 300px;
     min-height: 150px;
+    transition: all 0.8s ease-in-out;
 }
 
 .inputContainer {
