@@ -1,8 +1,11 @@
 (function () {
     'use strict';
     let minefieldData = [];
-    let timer = null, internalTime = null;
-    let remainingSafeCells = 0, flagsPlaced = 0, totalBombAmount = 0;
+    let timer = null,
+        internalTime = null;
+    let remainingSafeCells = 0,
+        flagsPlaced = 0,
+        totalBombAmount = 0;
 
     //////////////
     ///CLASSES///
@@ -56,10 +59,26 @@
     //////////////////////////
     ///Interaction with UI///
 
-    let checkForWin = function(){
+    let checkForWin = function () {
         if ((remainingSafeCells === 0) && (flagsPlaced === totalBombAmount)) {
             clearInterval(timer);
             document.querySelector('body').classList.add('fireWorks');
+
+            let highScoreData = [
+                document.getElementById('inpName').value,
+                internalTime.toLocaleTimeString(),
+                new Date().toTimeString()
+            ];
+
+            let cellAmount = minefieldData.length * minefieldData[0].length;
+
+            if (cellAmount < 65) {
+                localStorage.setItem('smallHighscore', JSON.stringify(highScoreData));
+            } else if (cellAmount < 257) {
+                localStorage.setItem('mediumHighscore', JSON.stringify(highScoreData));
+            } else {
+                localStorage.setItem('highHighscore', JSON.stringify(highScoreData));
+            }
         }
     };
 
@@ -96,7 +115,7 @@
         let contourCellCollection = [];
         let currentCellIndex = 0;
         let yPosMaximum = minefieldData.length - 1;
-        let XposMaxium = minefieldData[0].length - 1;        
+        let XposMaxium = minefieldData[0].length - 1;
 
         //Add the initial cell to the array & begin the loop
         contourCellCollection.push(startCellData);
@@ -169,7 +188,7 @@
     let addBombAmount = function (bombYPos, bombXpos) {
         //Determine the outerbounds of the field
         let yPosMaximum = minefieldData.length - 1;
-        let XposMaxium = minefieldData[0].length - 1;        
+        let XposMaxium = minefieldData[0].length - 1;
 
         //Increment the bombamount of all surrounding cells withing the outerbounds of the field
         for (let yPos = bombYPos - 1; yPos <= bombYPos + 1; yPos++) {
@@ -200,7 +219,8 @@
         let bombsPlaced = 0;
 
         //Like the original minesweeper +-17% of all cells are bombs
-        totalBombAmount = Math.ceil(cellAmount * 0.17);        
+        totalBombAmount = Math.ceil(cellAmount * 0.17);
+        totalBombAmount = 2;
         remainingSafeCells = cellAmount - totalBombAmount;
 
         document.getElementById('bombsInfo').innerText = totalBombAmount;
@@ -425,7 +445,7 @@
                 clickedElement.classList.remove('questionMark');
 
             } else if (!clickedElement.classList.contains('flag')) {
-                clickedElement.classList.add('flag');                
+                clickedElement.classList.add('flag');
                 flagsInfo.innerText = parseInt(flagsInfo.innerText) - 1;
 
                 flagsPlaced++;
