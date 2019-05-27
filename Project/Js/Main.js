@@ -58,7 +58,8 @@
 
     let checkForWin = function(){
         if ((remainingSafeCells === 0) && (flagsPlaced === totalBombAmount)) {
-            alert('You won!'); //for testing
+            clearInterval(timer);
+            document.querySelector('body').classList.add('fireWorks');
         }
     };
 
@@ -68,7 +69,6 @@
      * @param {Array} cellDataCollection Arrays of cells to be updated
      */
     let updateCells = function (cellDataCollection) {
-
         for (let cellData of cellDataCollection) {
             let cell = cellData.getCorrespondingTd;
 
@@ -92,30 +92,30 @@
      * Based on a rule set it finds an array of cell(s) that should be updated in the UI
      * @param {cell} startCell 
      */
-    let findContourCells = function (startCell) {
+    let findContourCells = function (startCellData) {
         let contourCellCollection = [];
         let currentCellIndex = 0;
-        let XposMaxium = minefieldData[0].length - 1;
         let yPosMaximum = minefieldData.length - 1;
+        let XposMaxium = minefieldData[0].length - 1;        
 
         //Add the initial cell to the array & begin the loop
-        contourCellCollection.push(startCell);
+        contourCellCollection.push(startCellData);
 
         do {
-            let currentCell = contourCellCollection[currentCellIndex++];
+            let currentCellData = contourCellCollection[currentCellIndex++];
 
             //If the current cell has bombs around it, then don't check this cell
-            if (currentCell.getSurroundingBombs > 0) {
+            if (currentCellData.getSurroundingBombs > 0) {
                 continue;
             }
 
             //Check 8 surrounding cells
-            for (let i = currentCell.yPos - 1; i <= currentCell.yPos + 1; i++) {
+            for (let i = currentCellData.yPos - 1; i <= currentCellData.yPos + 1; i++) {
                 if (i > yPosMaximum || i < 0) {
                     continue;
                 }
 
-                for (let j = currentCell.xPos - 1; j <= currentCell.xPos + 1; j++) {
+                for (let j = currentCellData.xPos - 1; j <= currentCellData.xPos + 1; j++) {
                     if ((j > XposMaxium || j < 0)) {
                         continue;
                     }
@@ -167,10 +167,9 @@
      * @param {number} bombXpos Column position of the bomb
      */
     let addBombAmount = function (bombYPos, bombXpos) {
-
         //Determine the outerbounds of the field
-        let XposMaxium = minefieldData[0].length - 1;
         let yPosMaximum = minefieldData.length - 1;
+        let XposMaxium = minefieldData[0].length - 1;        
 
         //Increment the bombamount of all surrounding cells withing the outerbounds of the field
         for (let yPos = bombYPos - 1; yPos <= bombYPos + 1; yPos++) {
@@ -201,9 +200,7 @@
         let bombsPlaced = 0;
 
         //Like the original minesweeper +-17% of all cells are bombs
-        totalBombAmount = Math.ceil(cellAmount * 0.17);
-
-        totalBombAmount = 2;
+        totalBombAmount = Math.ceil(cellAmount * 0.17);        
         remainingSafeCells = cellAmount - totalBombAmount;
 
         document.getElementById('bombsInfo').innerText = totalBombAmount;
@@ -234,8 +231,9 @@
      * clears & hides the table
      */
     let resetField = function () {
-        //Clear the array
+        //Clear all date from the previous game
         minefieldData.length = 0;
+        flagsPlaced = 0;
 
         //Reset the actual playingfield
         let tbody = document.getElementById('minefield');
@@ -318,6 +316,7 @@
 
             if (form.classList.contains('offScreen')) {
                 form.classList.remove('offScreen');
+                document.querySelector('body').classList.remove('fireWorks');
                 document.getElementById('btnDone').value = 'Start playing!';
                 return;
             }
@@ -350,7 +349,7 @@
 
             createField(parseInt(inpRows.value), parseInt(inpColumns.value));
 
-            //Initialise the internaltime
+            //Initialise the internalTime
             //NOTE: The date isn't being used, only the time
             internalTime = new Date(0, 0, 0, 0, 0, 0, 0);
             timer = setInterval(incrementTimer, 1000);
@@ -403,7 +402,8 @@
          * Places/removes flags & questionMarks
          */
         minefield.addEventListener('contextmenu', function (e) {
-            e.returnValue = false; //block context menu
+            //block context menu
+            e.returnValue = false;
 
             let clickedElement = e.path[0];
 
@@ -417,16 +417,20 @@
                 return;
             }
 
+            //Determine wether a flag or question mark should be place/removed
+            //Every time a flag is placed the winning condition are checked
             let flagsInfo = document.getElementById('flagsInfo');
 
             if (clickedElement.classList.contains('questionMark')) {
                 clickedElement.classList.remove('questionMark');
+
             } else if (!clickedElement.classList.contains('flag')) {
                 clickedElement.classList.add('flag');                
                 flagsInfo.innerText = parseInt(flagsInfo.innerText) - 1;
-                
+
                 flagsPlaced++;
                 checkForWin();
+
             } else {
                 clickedElement.classList.remove('flag');
                 clickedElement.classList.add('questionMark');

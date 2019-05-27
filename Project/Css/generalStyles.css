@@ -1,0 +1,37 @@
+/*GENERAL*/
+body {
+    display: flex;
+    
+    flex-flow: column;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    margin: 1%;
+    background-image: linear-gradient(to right, #42505F, #CA92AD)
+}
+
+.hidden {
+    opacity: 0;
+}
+
+.collapsed {
+    height: 0;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    min-height: 0;
+    height: 0;  
+}
+
+.offScreen{ 
+    transform: translate(-1%,-90%);
+    position: absolute;
+}
+
+.fireWorks{
+    background-image:  url('Img/fireworks.gif'), linear-gradient(to right, #42505F, #CA92AD);
+    background-repeat: round;
+}
