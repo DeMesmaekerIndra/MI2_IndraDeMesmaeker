@@ -1,11 +1,8 @@
 (function () {
     'use strict';
     let minefieldData = [];
-    let timer = null;
-    let internalTime = null;
-    let remainingSafeCells = 0;
-    let flagsPlaced = 0;
-    let totalBombAmount = 0;
+    let timer = null, internalTime = null;
+    let remainingSafeCells = 0, flagsPlaced = 0, totalBombAmount = 0;
 
     //////////////
     ///CLASSES///
@@ -59,12 +56,18 @@
     //////////////////////////
     ///Interaction with UI///
 
+    let checkForWin = function(){
+        if ((remainingSafeCells === 0) && (flagsPlaced === totalBombAmount)) {
+            alert('You won!'); //for testing
+        }
+    };
+
     /**
      * Function that receives a collection of cells 
      * and determines what class should be added to them
      * @param {Array} cellDataCollection Arrays of cells to be updated
      */
-    let updateCells = function name(cellDataCollection) {
+    let updateCells = function (cellDataCollection) {
 
         for (let cellData of cellDataCollection) {
             let cell = cellData.getCorrespondingTd;
@@ -139,9 +142,9 @@
 
         //Check the winning conditions
         //Once all safe cells are shown, and all flags have been placed. The user wins
-        if ((remainingSafeCells -= contourCellCollection.length) === 0 && flagsPlaced === totalBombAmount) {
-            alert('You won!'); //for testing
-        }
+        remainingSafeCells -= contourCellCollection.length;
+        checkForWin();
+
         updateCells(contourCellCollection);
     };
 
@@ -419,9 +422,11 @@
             if (clickedElement.classList.contains('questionMark')) {
                 clickedElement.classList.remove('questionMark');
             } else if (!clickedElement.classList.contains('flag')) {
-                clickedElement.classList.add('flag');
-                flagsPlaced++;
+                clickedElement.classList.add('flag');                
                 flagsInfo.innerText = parseInt(flagsInfo.innerText) - 1;
+                
+                flagsPlaced++;
+                checkForWin();
             } else {
                 clickedElement.classList.remove('flag');
                 clickedElement.classList.add('questionMark');
