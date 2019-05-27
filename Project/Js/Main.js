@@ -292,11 +292,19 @@
         let minefield = document.getElementById('minefield');
 
         /**
-         * Activates when user submits form, validates input, setup playingfield
+         * Checks wether the form is hidden or shown.
+         * Hidden: removes translate from form & stops.
+         * shown: validate input, setup playing field & hide translate
          */
         form.addEventListener('submit', function (e) {
             e.preventDefault();
             e.stopPropagation();
+
+            if (form.classList.contains('offScreen')) {
+                form.classList.remove('offScreen');
+                document.getElementById('btnDone').value = 'Start playing!';
+                return;
+            }
 
             //if a previous timer is still active, clear it
             //NOTE: clearInterval doesn't generate errors when it receives nulls
@@ -329,11 +337,8 @@
             internalTime = new Date(0, 0, 0, 0, 0, 0, 0); //Initialise the internaltime (the date isn't used, the time is)
             interval = setInterval(incrementTimer, 1000);
 
-            //document.querySelector('form').classList.add('collapsed');
-            let formElements = document.querySelectorAll('form');
-            for (let element of formElements) {
-                element.classList.add('offScreen');
-            }
+            form.classList.add('offScreen'); 
+            document.getElementById('btnDone').value = 'Open menu!';       
         });
 
         /** 
@@ -399,13 +404,6 @@
                 clickedElement.classList.remove('flag');
                 clickedElement.classList.add('questionMark');
                 flagsInfo.innerText = parseInt(flagsInfo.innerText) + 1;
-            }
-        });
-
-        document.getElementById('btnDone').addEventListener('mouseover', function(){
-            let formElements = document.querySelectorAll('form');
-            for (let element of formElements) {
-                element.classList.remove('offScreen');
             }
         });
     });
