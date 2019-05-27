@@ -60,15 +60,15 @@
     ///Winning & highscores///
 
     let storeData = function (highScoreData, highscoreSize) {
-        let data = localStorage.getItem(highscoreSize);
+        let data = JSON.parse(localStorage.getItem(highscoreSize));
 
         if (data != undefined || data != null) {
-
-            if (data[1] > highScoreData[1]) {
-                localStorage.setItem('smallHighscore', JSON.stringify(highScoreData));
+            if (data[1] >= highScoreData[1]) {
+                localStorage.setItem(highscoreSize, JSON.stringify(highScoreData));
             }
+            
         } else {
-            localStorage.setItem('smallHighscore', JSON.stringify(highScoreData));
+            localStorage.setItem(highscoreSize, JSON.stringify(highScoreData));
         }
     };
 
