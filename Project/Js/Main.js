@@ -3,6 +3,9 @@
     let minefieldData = [];
     let timer = null;
     let internalTime = null;
+    let remainingSafeCells = 0;
+    let flagsPlaced = 0;
+    let totalBombAmount = 0;
 
     //////////////
     ///CLASSES///
@@ -134,6 +137,11 @@
         }
         while (currentCellIndex < contourCellCollection.length);
 
+        //Check the winning conditions
+        //Once all safe cells are shown, and all flags have been placed. The user wins
+        if ((remainingSafeCells -= contourCellCollection.length) === 0 && flagsPlaced === totalBombAmount) {
+            alert('You won!'); //for testing
+        }
         updateCells(contourCellCollection);
     };
 
@@ -188,10 +196,12 @@
     let populateWithBombs = function (rows, columns) {
         let cellAmount = rows * columns;
         let bombsPlaced = 0;
-        let totalBombAmount = 0;
 
         //Like the original minesweeper +-17% of all cells are bombs
         totalBombAmount = Math.ceil(cellAmount * 0.17);
+
+        totalBombAmount = 2;
+        remainingSafeCells = cellAmount - totalBombAmount;
 
         document.getElementById('bombsInfo').innerText = totalBombAmount;
         document.getElementById('flagsInfo').innerText = totalBombAmount;
@@ -337,11 +347,13 @@
 
             createField(parseInt(inpRows.value), parseInt(inpColumns.value));
 
-            internalTime = new Date(0, 0, 0, 0, 0, 0, 0); //Initialise the internaltime (the date isn't used, the time is)
+            //Initialise the internaltime
+            //NOTE: The date isn't being used, only the time
+            internalTime = new Date(0, 0, 0, 0, 0, 0, 0);
             timer = setInterval(incrementTimer, 1000);
 
             form.classList.add('offScreen');
-            document.getElementById('btnDone').value = 'Open menu!';
+            document.getElementById('btnDone').value = 'New game!';
         });
 
         /** 
@@ -397,6 +409,7 @@
             }
 
             //Not allowed to place a flag on already activated cells, shown bombs or the exploded bomb
+            //NOTE: this basically stops players from placing flags & questionmarks after the game has ended
             if (clickedElement.classList.contains('clickedCell') || clickedElement.classList.contains('bomb') || clickedElement.classList.contains('clickedBomb')) {
                 return;
             }
@@ -407,10 +420,12 @@
                 clickedElement.classList.remove('questionMark');
             } else if (!clickedElement.classList.contains('flag')) {
                 clickedElement.classList.add('flag');
+                flagsPlaced++;
                 flagsInfo.innerText = parseInt(flagsInfo.innerText) - 1;
             } else {
                 clickedElement.classList.remove('flag');
                 clickedElement.classList.add('questionMark');
+                flagsPlaced--;
                 flagsInfo.innerText = parseInt(flagsInfo.innerText) + 1;
             }
         });
