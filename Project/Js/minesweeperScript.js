@@ -56,31 +56,58 @@
     ///FUNCTIONS///
     ///////////////
 
-    //////////////////////////
-    ///Interaction with UI///
+    ///////////////////////////
+    ///Winning & highscores///
 
-    let checkForWin = function () {
-        if ((remainingSafeCells === 0) && (flagsPlaced === totalBombAmount)) {
-            clearInterval(timer);
-            document.querySelector('body').classList.add('fireWorks');
+    let storeData = function (highScoreData, highscoreSize) {
+        let data = localStorage.getItem(highscoreSize);
 
-            let highScoreData = [
-                document.getElementById('inpName').value,
-                internalTime.toLocaleTimeString(),
-                new Date().toTimeString()
-            ];
+        if (data != undefined || data != null) {
 
-            let cellAmount = minefieldData.length * minefieldData[0].length;
-
-            if (cellAmount < 65) {
+            if (data[1] > highScoreData[1]) {
                 localStorage.setItem('smallHighscore', JSON.stringify(highScoreData));
-            } else if (cellAmount < 257) {
-                localStorage.setItem('mediumHighscore', JSON.stringify(highScoreData));
-            } else {
-                localStorage.setItem('highHighscore', JSON.stringify(highScoreData));
             }
+        } else {
+            localStorage.setItem('smallHighscore', JSON.stringify(highScoreData));
         }
     };
+
+    let checkForWin = function () {
+        if (!((remainingSafeCells === 0) && (flagsPlaced === totalBombAmount))) {
+            return;
+        }
+
+        clearInterval(timer);
+        document.querySelector('body').classList.add('fireWorks');
+
+        let highScoreData = [
+            document.getElementById('inpName').value,
+            internalTime.toLocaleTimeString(),
+            new Date().toUTCString()
+        ];
+
+        let cellAmount = minefieldData.length * minefieldData[0].length;
+
+        if (cellAmount < 65) {
+            storeData(highScoreData, 'smallHighscore');
+            highScoreData.push('small');
+        } else if (cellAmount < 257) {
+            storeData(highScoreData, 'mediumHighscore');
+            highScoreData.push('medium');
+        } else {
+            storeData(highScoreData, 'highHighscore');
+            highScoreData.push('large');
+        }
+
+        localStorage.setItem('currentScore', JSON.stringify(highScoreData));
+
+        setTimeout(function () {
+            window.open('scoreboard.html', '_blank');
+        }, 2000);
+    };
+
+    //////////////////////////
+    ///Interaction with UI///
 
     /**
      * Function that receives a collection of cells 

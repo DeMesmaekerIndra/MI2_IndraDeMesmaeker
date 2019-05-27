@@ -1,19 +1,25 @@
 (function () {
     'use strict';
 
-    let showData = function(cells, data){
+    let showData = function (cells, data) {
         for (let i = 0; i < cells.length; i++) {
             cells[i].innerText = data[i];
         }
     };
 
     window.addEventListener('load', function () {
-        let smallFieldTable = document.getElementById('smallField');
-        let mediumFieldTable = document.getElementById('mediumField');
-        let largeFieldTable = document.getElementById('largeField');
+        showData(document.querySelectorAll('#smallHighscore>td'), JSON.parse(localStorage.getItem('smallHighscore')));
+        showData(document.querySelectorAll('#mediumHighscore>td'), JSON.parse(localStorage.getItem('mediumHighscore')));
+        showData(document.querySelectorAll('#largeHighscore>td'), JSON.parse(localStorage.getItem('highHighscore')));
 
-        showData(smallFieldTable.querySelectorAll('td'), localStorage.getItem('smallHighScore'));
-        showData(mediumFieldTable.querySelectorAll('td'), localStorage.getItem('mediumHighScore'));
-        showData(largeFieldTable.querySelectorAll('td'), localStorage.getItem('highHighScore'));
+        let currentData = JSON.parse(localStorage.getItem('currentScore'));
+
+        if (currentData[3] === 'small') {
+            showData(document.querySelectorAll('#smallCurrentScore>td'), currentData);
+        } else if (currentData[3] === 'medium') {
+            showData(document.querySelectorAll('#mediumCurrentScore>td'), currentData);
+        } else {
+            showData(document.querySelectorAll('#largeCurrentScore>td'), currentData);
+        }
     });
 })();

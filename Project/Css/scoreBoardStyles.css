@@ -14,3 +14,7 @@ th{
 hr{
     width: 100%;
 }
+
+td, th{
+    text-align: center; 
+}
