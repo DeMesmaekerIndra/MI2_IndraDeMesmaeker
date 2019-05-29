@@ -5,6 +5,7 @@ form {
     align-items: stretch;
 
     margin-left: 1%;
+    margin-bottom: 50px;
 
     width: calc(100% - 2%);
     min-width: 300px;
@@ -39,8 +40,8 @@ label>input[type="number"] {
 }
 
 /*INFORMATION BAR*/
-.informationContainer{
-    display: flex;    
+.informationContainer {
+    display: flex;
     flex-flow: row nowrap;
 
     justify-content: space-between;
@@ -48,16 +49,16 @@ label>input[type="number"] {
     margin-left: 1%;
 
     width: calc(100% - 2%);
-    min-width: 300px;  
+    min-width: 300px;
 }
 
-.informationContainer>p{
+.informationContainer>p {
     text-align: center;
     width: 100px;
     font-size: 1.3em;
 }
 
-.informationContainer>p>span{
+.informationContainer>p>span {
     color: #ececec;
     font-size: 1.5em;
 }
@@ -91,7 +92,7 @@ tbody>tr>td {
     background-image: url("Img/minesweeper_02.png")
 }
 
-.questionMark{
+.questionMark {
     background-image: url("Img/minesweeper_03.png")
 }
 
