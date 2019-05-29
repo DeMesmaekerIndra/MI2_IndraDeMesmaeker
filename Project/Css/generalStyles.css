@@ -1,6 +1,7 @@
 /*GENERAL*/
 html{
     height: 100%;
+    width: 100%; 
 }
 
 body {
@@ -12,8 +13,9 @@ body {
     padding: 0;
 
     height: 100%;
+    width: 100%;
 
-    background-repeat: no-repeat;
+    background-repeat: repeat-y;
     background-attachment: fixed;  
     
     background-size: contain;

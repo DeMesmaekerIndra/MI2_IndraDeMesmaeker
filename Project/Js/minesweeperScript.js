@@ -347,6 +347,16 @@
         let form = document.querySelector('form');
         let minefield = document.getElementById('minefield');
 
+        if (window.innerWidth <= 1280) {
+            document.getElementById('maxColumns').innerText = '15';
+            document.getElementById('inpColumnSize').setAttribute('max', '15');
+        }
+
+        if (window.innerHeight <= 720) {
+            document.getElementById('maxRows').innerText = '15';
+            document.getElementById('inpRowSize').setAttribute('max', '15');
+        }
+
         /**
          * Checks wether the form is hidden or shown.
          * Hidden: removes translate from form & stops.
