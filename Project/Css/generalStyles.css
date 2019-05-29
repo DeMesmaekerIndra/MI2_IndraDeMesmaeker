@@ -1,12 +1,7 @@
 /*GENERAL*/
-html{
-    height: 100%;
-    width: 100%; 
-}
-
 body {
     display: flex;
-    flex-flow: column;
+    flex-flow: column nowrap;
     align-items: center;
 
     margin: 0;
@@ -16,7 +11,6 @@ body {
     width: 100%;
 
     background-repeat: repeat-y;
-    background-attachment: fixed;  
     
     background-size: contain;
     background-image: linear-gradient(to right, #42505F, #CA92AD);
@@ -38,6 +32,11 @@ body {
 .offScreen{ 
     transform: translate(-1%,-90%);
     position: absolute;
+}
+
+.onScreen{
+    transform: translate(0, 0);
+    position: relative;
 }
 
 .fireWorks{

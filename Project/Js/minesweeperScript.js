@@ -368,6 +368,7 @@
 
             if (form.classList.contains('offScreen')) {
                 form.classList.remove('offScreen');
+                form.classList.add('onScreen');
                 document.querySelector('body').classList.remove('fireWorks');
                 document.getElementById('btnDone').value = 'Start playing!';
                 return;
@@ -406,6 +407,7 @@
             internalTime = new Date('1/01/2000 00:00:00');
             timer = setInterval(incrementTimer, 1000);
 
+            form.classList.remove('onScreen');
             form.classList.add('offScreen');
             document.getElementById('btnDone').value = 'New game!';
         });
