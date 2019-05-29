@@ -393,7 +393,7 @@
 
             //Initialise the internalTime, remove the current
             //NOTE: The date isn't being used, only the time
-            internalTime = new Date(0, 0, 0, 0, 0, 0, 0);
+            internalTime = new Date('1/01/2000 00:00:00');
             timer = setInterval(incrementTimer, 1000);
 
             form.classList.add('offScreen');
@@ -404,11 +404,13 @@
          * Activates if the tbody has been clicked, Acts accordingly if a td element was clicked
          */
         minefield.addEventListener('click', function (e) {
-            if (e.path[0].tagName !== 'TD') {
-                return;
-            }
+            let clickedElement = e.target;
 
-            let cellData = minefieldData[e.path[1].rowIndex][e.path[0].cellIndex];
+            if (clickedElement.tagName !== 'TD') {
+                return;
+            }            
+
+            let cellData = minefieldData[clickedElement.parentElement.rowIndex][clickedElement.cellIndex];
             let cell = cellData.getCorrespondingTd;
 
             //If the clicked cell has already been clicked before, cell contains a flag don't do anything
@@ -433,7 +435,7 @@
 
                 setTimeout(function () {
                     window.open('scoreboard.html', '_blank');
-                }, 1500);
+                }, 1000);
             } else {
                 findContourCells(cellData);
             }
@@ -447,7 +449,7 @@
             //block context menu & check if a td was clicked
             e.returnValue = false;
 
-            let clickedElement = e.path[0];
+            let clickedElement = e.target;
 
             if (clickedElement.tagName !== 'TD') {
                 return;

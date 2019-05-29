@@ -1,16 +1,23 @@
 /*GENERAL*/
-body {
-    display: flex;
-    
-    flex-flow: column;
-    align-items: center;
-    margin: 0;
-    padding: 0;
+html{
+    height: 100%;
 }
 
 body {
-    margin: 1%;
-    background-image: linear-gradient(to right, #42505F, #CA92AD)
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+
+    margin: 0;
+    padding: 0;
+
+    height: 100%;
+
+    background-repeat: no-repeat;
+    background-attachment: fixed;  
+    
+    background-size: contain;
+    background-image: linear-gradient(to right, #42505F, #CA92AD);
 }
 
 .hidden {
