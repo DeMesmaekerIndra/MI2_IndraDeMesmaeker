@@ -4,10 +4,11 @@ body{
 
 table{
     border-collapse: collapse;
+    width: 100%;
 }
 
 th{
-    min-width: 150px;
+    min-width: 80px;
     min-height: 50px;
 }
 hr{
