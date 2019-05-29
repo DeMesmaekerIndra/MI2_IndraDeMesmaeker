@@ -41,5 +41,6 @@ body {
 
 .fireWorks{
     background-image:  url('Img/fireworks.gif'), linear-gradient(to right, #42505F, #CA92AD);
+    background-size: contain;
     background-repeat: round;
 }

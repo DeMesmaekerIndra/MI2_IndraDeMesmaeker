@@ -17,8 +17,11 @@
             }
         }
 
-        let currentData = JSON.parse(sessionStorage.getItem('currentScore'));
 
-        showData(document.querySelectorAll('#'+ currentData[3] +'CurrentScore>td'), currentData);
+        let currentData = JSON.parse(sessionStorage.getItem('currentScore'));
+        if (currentData !== null) {
+            showData(document.querySelectorAll('#' + currentData[3] + 'CurrentScore>td'), currentData);
+            sessionStorage.clear();
+        }
     });
 })();
