@@ -258,7 +258,6 @@
 
         //Like the original minesweeper +-17% of all cells are bombs
         totalBombAmount = Math.ceil(cellAmount * 0.17);
-        totalBombAmount = 1;
         remainingSafeCells = cellAmount - totalBombAmount;
 
         document.getElementById('bombsInfo').innerText = totalBombAmount;
