@@ -152,9 +152,9 @@
      */
     let findContourCells = function (startCellData) {
         let contourCellCollection = [];
-        let currentCellIndex = 0;
-        let yPosMaximum = minefieldData.length - 1;
-        let XposMaxium = minefieldData[0].length - 1;
+        let currentCellIndex = 0,
+            yPosMaximum = minefieldData.length - 1,
+            XposMaxium = minefieldData[0].length - 1;
 
         //Add the initial cell to the array & begin the loop
         contourCellCollection.push(startCellData);
@@ -178,7 +178,6 @@
                         continue;
                     }
 
-                    //Cache the cell that's being checked
                     let cellData = minefieldData[i][j];
                     let cell = cellData.getCorrespondingTd;
 
@@ -195,8 +194,7 @@
                     contourCellCollection.push(cellData);
                 }
             }
-        }
-        while (currentCellIndex < contourCellCollection.length);
+        } while (currentCellIndex < contourCellCollection.length);
 
         //Check the winning conditions
         //Once all safe cells are shown, and all flags have been placed. The user wins
@@ -225,8 +223,8 @@
      */
     let addBombAmount = function (bombYPos, bombXpos) {
         //Determine the outerbounds of the field
-        let yPosMaximum = minefieldData.length - 1;
-        let XposMaxium = minefieldData[0].length - 1;
+        let yPosMaximum = minefieldData.length - 1,
+            xPosMaxium = minefieldData[0].length - 1;
 
         //Increment the bombamount of all surrounding cells withing the outerbounds of the field
         for (let yPos = bombYPos - 1; yPos <= bombYPos + 1; yPos++) {
@@ -235,7 +233,7 @@
             }
 
             for (let xPos = bombXpos - 1; xPos <= bombXpos + 1; xPos++) {
-                if ((xPos > XposMaxium || xPos < 0)) {
+                if ((xPos > xPosMaxium || xPos < 0)) {
                     continue;
                 }
 
@@ -253,8 +251,8 @@
      * @param {number} columns Amount of columns
      */
     let populateWithBombs = function (rows, columns) {
-        let cellAmount = rows * columns;
-        let bombsPlaced = 0;
+        let cellAmount = rows * columns,
+            bombsPlaced = 0;
 
         //Like the original minesweeper +-17% of all cells are bombs
         totalBombAmount = Math.ceil(cellAmount * 0.17);
@@ -263,23 +261,18 @@
         document.getElementById('bombsInfo').innerText = totalBombAmount;
         document.getElementById('flagsInfo').innerText = totalBombAmount;
 
-        //Set the bombs to active
+        //Activate random bombs untill all bombs have been activated
         while (bombsPlaced < totalBombAmount) {
-
-            //Determine a random cell to activate
-            let yPos = Math.floor(Math.random() * rows);
-            let xPos = Math.floor(Math.random() * columns);
+            let yPos = Math.floor(Math.random() * rows),
+                xPos = Math.floor(Math.random() * columns);
             let cellData = minefieldData[yPos][xPos];
 
-            //If the cell already has an active, find another
-            if (cellData.getBomb === true) {
-                continue;
+            if (cellData.getBomb !== true) {
+                cellData.setBomb = true;
+                bombsPlaced++;
+
+                addBombAmount(yPos, xPos);
             }
-
-            cellData.setBomb = true;
-            bombsPlaced++;
-
-            addBombAmount(yPos, xPos);
         }
     };
 
@@ -391,13 +384,13 @@
             //NOTE: clearInterval doesn't generate errors when it receives null//undefined
             clearInterval(timer);
 
-            let inpName = document.getElementById('inpName');
-            let inpRows = document.getElementById('inpRowSize');
-            let inpColumns = document.getElementById('inpColumnSize');
+            let inpName = document.getElementById('inpName'),
+                inpRows = document.getElementById('inpRowSize'),
+                inpColumns = document.getElementById('inpColumnSize');
 
-            let errName = document.getElementById('errName');
-            let errRows = document.getElementById('errRows');
-            let errColumns = document.getElementById('errColumns');
+            let errName = document.getElementById('errName'),
+                errRows = document.getElementById('errRows'),
+                errColumns = document.getElementById('errColumns');
 
             let isCorrect = true;
 
