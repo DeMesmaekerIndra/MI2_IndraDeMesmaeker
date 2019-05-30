@@ -10,6 +10,9 @@
     //////////////
     ///CLASSES///
     /////////////
+    /**
+     * Class that stores the data ((in)active bomb, surrounding bombs, matching td element on screen)
+     */
     class cell {
         constructor(td, y, x) {
             this.correspondingTdElement = td;
@@ -178,8 +181,8 @@
                         continue;
                     }
 
-                    let cellData = minefieldData[i][j];
-                    let cell = cellData.getCorrespondingTd;
+                    let cellData = minefieldData[i][j],
+                        cell = cellData.getCorrespondingTd;
 
                     //If the cell has a bomb, is already in the array, then continue with the next cell
                     if (cellData.getBomb || contourCellCollection.includes(cellData)) {
@@ -300,9 +303,9 @@
      * @param {number} columns Amount of columns
      */
     let createField = function (rows, columns) {
-        let tbody = document.getElementById('minefield');
-
         resetField();
+
+        let tbody = document.getElementById('minefield');
 
         //Create new row & cell elements on the page.
         //Fill the jagged array with cell objects
@@ -392,15 +395,11 @@
                 errRows = document.getElementById('errRows'),
                 errColumns = document.getElementById('errColumns');
 
-            let isCorrect = true;
-
             errName.classList.add('hidden', 'collapsed');
             errRows.classList.add('hidden', 'collapsed');
             errColumns.classList.add('hidden', 'collapsed');
 
-            isCorrect &= checkInput(inpName, errName);
-            isCorrect &= checkInput(inpRows, errRows);
-            isCorrect &= checkInput(inpColumns, errColumns);
+            let isCorrect = checkInput(inpName, errName) && checkInput(inpRows, errRows) && checkInput(inpColumns, errColumns);
 
             if (!isCorrect) {
                 return;
