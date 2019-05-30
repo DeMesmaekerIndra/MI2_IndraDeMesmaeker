@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Minesweeper</title>
+    <link rel="stylesheet" href="Css/generalStyles.css">
+    <link rel="stylesheet" href="Css/mineFieldStyles.css">
+    <link rel="icon" href="Css/Img/minesweeper_05.png">
+</head>
+
+<body>
+    <form class="onScreen">
+        <fieldset>
+            <legend>Player info</legend>
+            <div class="inputContainer">
+                <label for="inpName">Enter your player name: </label>
+                <input type="text" name="inpName" id="inpName" placeholder="Your name here">
+                <span id="errName" class="errorMsg"></span>
+            </div>
+        </fieldset>
+
+        <fieldset>
+            <legend>Dimensions:</legend>
+            <div class="inputContainer">
+                <label for="inpRowSize">How many rows do you want? (8-<span id="maxRows">24</span>)
+                    <input type="number" placeholder="?" max="24" min="8" name="inpRowSize" id="inpRowSize">
+                </label>
+
+                <span id="errRows" class="errorMsg"></span>
+            </div>
+
+            <div class="inputContainer">
+                <label for="inpColumnSize">How many columns do you want? (8-<span id="maxColumns">24</span>)
+                    <input type="number" placeholder="?" max="24" min="8" name="inpColumnSize" id="inpColumnSize">
+                </label>
+
+                <span id="errColumns" class="errorMsg"></span>
+            </div>
+        </fieldset>
+        <input type="submit" id="btnDone" value="Start playing!">
+    </form>
+
+    <div class="informationContainer">
+        <p>Bombs:<br><span id="bombsInfo">00</span></p>
+        <p>Time:<br><span id="timerInfo">00:00:00</span></p>
+        <p>Flags left:<br><span id="flagsInfo">00</span></p>
+    </div>
+
+    <table class="hidden collapsed" border="1">
+        <tbody id="minefield"></tbody>
+    </table>
+
+    <script src="Js/minesweeperScript.js"></script>
+</body>
+
+</html>

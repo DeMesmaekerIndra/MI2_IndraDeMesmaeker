@@ -5,55 +5,48 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Minesweeper</title>
+    <title>Introduction</title>
     <link rel="stylesheet" href="Css/generalStyles.css">
-    <link rel="stylesheet" href="Css/mineFieldStyles.css">
-    <link rel="icon" href="Css/Img/minesweeper_05.png">
+    <link rel="stylesheet" href="Css/introductionStyles.css">
+    <link rel="icon" href="Css/Img/minesweeper_04.png">
 </head>
 
 <body>
-    <form class="onScreen">
-        <fieldset>
-            <legend>Player info</legend>
-            <div class="inputContainer">
-                <label for="inpName">Enter your player name: </label>
-                <input type="text" name="inpName" id="inpName" placeholder="Your name here">
-                <span id="errName" class="errorMsg"></span>
-            </div>
-        </fieldset>
+    <h1>Welcome to minesweeper!</h1>
 
-        <fieldset>
-            <legend>Dimensions:</legend>
-            <div class="inputContainer">
-                <label for="inpRowSize">How many rows do you want? (8-<span id="maxRows">24</span>)
-                    <input type="number" placeholder="?" max="24" min="8" name="inpRowSize" id="inpRowSize">
-                </label>
+    <section id="intro">
+        <h2>How do I play?</h2>
+        <p>Minesweeper is a game where you have a grid of cells.</p>
+        <p>As the name suggests... Some of these cells have bombs in them.
+            It's your job to uncover all cells while avoiding the bombs!</p>
+        <p>You win by activating all safe cells and flagging all bombs.</p>
+    </section>
 
-                <span id="errRows" class="errorMsg"></span>
-            </div>
+    <h2>This is...</h2>
+    <section id="imgLegend">
+        <figure>
+            <figcaption>a regular cell.</figcaption>
+            <img src="Css/Img/minesweeper_00.png" alt="">
+        </figure>
+        <figure>
+            <figcaption>a flag.</figcaption>
+            <img src="Css/Img/minesweeper_02.png" alt="">
+        </figure>
+        <figure>
+            <figcaption>an unexploded bomb</figcaption>
+            <img src="Css/Img/minesweeper_05.png" alt="">
+        </figure>
+        <figure>
+            <figcaption>an exploded bomb</figcaption>
+            <img src="Css/Img/minesweeper_06.png" alt="">
+        </figure>
+        <figure>
+            <figcaption>a cell with 1 bomb around it. (max 8)</figcaption>
+            <img src="Css/Img/minesweeper_08.png" alt="">
+        </figure>
+    </section>
 
-            <div class="inputContainer">
-                <label for="inpColumnSize">How many columns do you want? (8-<span id="maxColumns">24</span>)
-                    <input type="number" placeholder="?" max="24" min="8" name="inpColumnSize" id="inpColumnSize">
-                </label>
-
-                <span id="errColumns" class="errorMsg"></span>
-            </div>
-        </fieldset>
-        <input type="submit" id="btnDone" value="Start playing!">
-    </form>
-
-    <div class="informationContainer">
-        <p>Bombs:<br><span id="bombsInfo">00</span></p>
-        <p>Time:<br><span id="timerInfo">00:00:00</span></p>
-        <p>Flags left:<br><span id="flagsInfo">00</span></p>
-    </div>
-
-    <table class="hidden collapsed" border="1">
-        <tbody id="minefield"></tbody>
-    </table>
-
-    <script src="Js/minesweeperScript.js"></script>
+    <a href="mineSweeper.html">Enough reading! Let me play!</a>
 </body>
 
 </html>
