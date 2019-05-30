@@ -59,47 +59,60 @@
     ///////////////////////////
     ///Winning & highscores///
 
-    let storeData = function (newHighScore, highscoreType) {
-        let oldHighScore = JSON.parse(localStorage.getItem(highscoreType));
-        
-        if (oldHighScore !== null) {
-            if (oldHighScore[1] >= newHighScore[1]) {
-                localStorage.setItem(highscoreType, JSON.stringify(newHighScore));
-            }
-        } else {
-            localStorage.setItem(highscoreType, JSON.stringify(newHighScore));
-        }
-    };
-
-    let checkForWin = function () {
-        if (!((remainingSafeCells === 0) && (flagsPlaced === totalBombAmount))) {
-            return;
-        }
-
-        clearInterval(timer);
-        document.querySelector('body').classList.add('fireWorks');
-
+    /**
+     * This functions handles saving/overwriting highscores
+     * Highscore are kept in localstorage. Previous score is kept in session storage.
+     */
+    let storeData = function () {
+        //Save the currentscore in an array
         let highScoreData = [
             document.getElementById('inpName').value,
             internalTime.toLocaleTimeString(),
             new Date().toUTCString()
         ];
 
+        //Check the field size and determine which previous highscore should be overwritten
         let cellAmount = minefieldData.length * minefieldData[0].length;
+        let highscoreType = '';
 
         if (cellAmount < 65) {
-            storeData(highScoreData, 'smallHighscore');
-            highScoreData.push('small');
+            highscoreType = 'small';
         } else if (cellAmount < 257) {
-            storeData(highScoreData, 'mediumHighscore');
-            highScoreData.push('medium');
+            highscoreType = 'medium';
         } else {
-            storeData(highScoreData, 'highHighscore');
-            highScoreData.push('large');
+            highscoreType = 'large';
         }
 
-        sessionStorage.setItem('currentScore', JSON.stringify(highScoreData));
+        //Get old highscore for the determined field size. 
+        //If the new score is better, or there is no old score.Save current score as highscore
+        let oldHighScore = JSON.parse(localStorage.getItem(highscoreType));
 
+        if (oldHighScore === null) {
+            localStorage.setItem(highscoreType, JSON.stringify(highScoreData));
+        } else if (oldHighScore[1] >= highScoreData[1]) {
+            localStorage.setItem(highscoreType, JSON.stringify(highScoreData));
+        }
+
+        //Add identifier for fieldsize to currentscore & add to session storage.
+        highScoreData.push(highscoreType);
+        sessionStorage.setItem('currentScore', JSON.stringify(highScoreData));
+    };
+
+    /**
+     * Function that checks if the winning conditions (all flags placed, all safe cells clicked) have been met.
+     * If they have, save the current score. And check wether it beats the previous highscore.
+     * Then open the scoreboard window
+     */
+    let checkForWin = function () {
+        if (!((remainingSafeCells === 0) && (flagsPlaced === totalBombAmount))) {
+            return;
+        }
+
+        //Stop the timer, display fireworks
+        clearInterval(timer);
+        document.querySelector('body').classList.add('fireWorks');
+
+        storeData();
         setTimeout(function () {
             window.open('scoreboard.html', '_blank');
         }, 1500);
@@ -187,7 +200,7 @@
 
         //Check the winning conditions
         //Once all safe cells are shown, and all flags have been placed. The user wins
-        remainingSafeCells -= contourCellCollection.length;       
+        remainingSafeCells -= contourCellCollection.length;
 
         updateCells(contourCellCollection);
         checkForWin();
@@ -245,6 +258,7 @@
 
         //Like the original minesweeper +-17% of all cells are bombs
         totalBombAmount = Math.ceil(cellAmount * 0.17);
+        totalBombAmount = 1;
         remainingSafeCells = cellAmount - totalBombAmount;
 
         document.getElementById('bombsInfo').innerText = totalBombAmount;
@@ -364,7 +378,7 @@
          */
         form.addEventListener('submit', function (e) {
             e.preventDefault();
-            e.stopPropagation();            
+            e.stopPropagation();
 
             if (form.classList.contains('offScreen')) {
                 form.classList.remove('offScreen');
@@ -375,7 +389,7 @@
             }
 
             //if a previous timer is still active, clear it
-            //NOTE: clearInterval doesn't generate errors when it receives nulls
+            //NOTE: clearInterval doesn't generate errors when it receives null//undefined
             clearInterval(timer);
 
             let inpName = document.getElementById('inpName');
@@ -420,7 +434,7 @@
 
             if (clickedElement.tagName !== 'TD') {
                 return;
-            }            
+            }
 
             let cellData = minefieldData[clickedElement.parentElement.rowIndex][clickedElement.cellIndex];
             let cell = cellData.getCorrespondingTd;
@@ -445,6 +459,7 @@
                     updateCells(row);
                 }
 
+                sessionStorage.clear();
                 setTimeout(function () {
                     window.open('scoreboard.html', '_blank');
                 }, 1000);

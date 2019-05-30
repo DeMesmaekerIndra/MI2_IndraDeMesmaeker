@@ -11,7 +11,7 @@ body {
     width: 100%;
 
     background-repeat: repeat-y;
-    
+
     background-size: contain;
     background-image: linear-gradient(to right, #42505F, #CA92AD);
 }
@@ -26,21 +26,21 @@ body {
     padding: 0;
     overflow: hidden;
     min-height: 0;
-    height: 0;  
+    height: 0;
 }
 
-.offScreen{ 
-    transform: translate(-1%,-90%);
+.offScreen {
+    transform: translate(-1%, -90%);
     position: absolute;
 }
 
-.onScreen{
+.onScreen {
     transform: translate(0, 0);
     position: relative;
 }
 
-.fireWorks{
-    background-image:  url('Img/fireworks.gif'), linear-gradient(to right, #42505F, #CA92AD);
+.fireWorks {
+    background-image: url('Img/fireworks.gif'), linear-gradient(to right, #42505F, #CA92AD);
     background-size: contain;
     background-repeat: round;
 }

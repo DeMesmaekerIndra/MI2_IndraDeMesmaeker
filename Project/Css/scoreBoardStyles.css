@@ -1,20 +1,23 @@
-body{
-    justify-content: space-around;
+body {
+    align-items: space-between  ;
 }
 
-table{
+table {
     border-collapse: collapse;
-    width: 100%;
+    width: calc(100% - 8%);
+    min-width: 350px;
 }
 
-th{
+th {
     min-width: 80px;
     min-height: 50px;
 }
-hr{
+
+hr {
     width: 100%;
 }
 
-td, th{
-    text-align: center; 
+td,
+th {
+    text-align: center;
 }

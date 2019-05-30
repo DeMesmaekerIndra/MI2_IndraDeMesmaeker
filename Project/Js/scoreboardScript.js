@@ -8,20 +8,18 @@
     };
 
     window.addEventListener('load', function () {
-        let array = ['small', 'medium', 'high'];
+        let array = ['small', 'medium', 'large'];
 
         for (let type of array) {
-            let highscoreData = JSON.parse(localStorage.getItem(type + 'Highscore'));
+            let highscoreData = JSON.parse(localStorage.getItem(type));
             if (highscoreData !== null) {
                 showData(document.querySelectorAll('#' + type + 'Highscore>td'), highscoreData);
             }
         }
 
-
         let currentData = JSON.parse(sessionStorage.getItem('currentScore'));
         if (currentData !== null) {
             showData(document.querySelectorAll('#' + currentData[3] + 'CurrentScore>td'), currentData);
-            sessionStorage.clear();
         }
     });
 })();
