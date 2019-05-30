@@ -3,7 +3,7 @@
 
     /**
      * Function responsible for adding text to the scoreboard
-     * @param {Element} cells td Elements that need to be filled
+     * @param {Array} cells td Elements that need to be filled
      * @param {Array} data highscore information
      */
     let showData = function (cells, data) {

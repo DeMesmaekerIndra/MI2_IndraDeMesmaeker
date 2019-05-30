@@ -1,7 +1,4 @@
-body {
-    align-items: space-between  ;
-}
-
+/*TABLES*/
 table {
     border-collapse: collapse;
     width: calc(100% - 8%);

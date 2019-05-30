@@ -151,7 +151,7 @@
     /**
      * Function that receives the cellData of the cell clicked by the user
      * Based on a rule set it finds an array of cell(s) that should be updated in the UI
-     * @param {cell} startCell 
+     * @param {Cell} startCell 
      */
     let findContourCells = function (startCellData) {
         let contourCellCollection = [];
@@ -250,7 +250,7 @@
 
     /**
      *  Function responsible for activating the bombs in the minefieldData array
-     * @param {number} rows Amount of eows 
+     * @param {number} rows Amount of rows 
      * @param {number} columns Amount of columns
      */
     let populateWithBombs = function (rows, columns) {
@@ -284,11 +284,9 @@
      * clears & hides the table
      */
     let resetField = function () {
-        //Clear all date from the previous game
         minefieldData.length = 0;
         flagsPlaced = 0;
 
-        //Reset the actual playingfield
         let tbody = document.getElementById('minefield');
 
         while (tbody.childNodes.length > 0) {
@@ -331,7 +329,7 @@
 
     /**
      * Checks form inputs for errors
-     * @param {number} input Input value of input element
+     * @param {*} input Input value of input element
      * @param {Element} errorElem Span element used for showing error
      */
     let checkInput = function (input, errorElem) {
